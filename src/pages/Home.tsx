@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { FaReact, FaJs, FaNodeJs, FaGitAlt, FaCss3Alt } from "react-icons/fa";
+import { SiTypescript } from "react-icons/si";
 
 const Home: React.FC = () => {
   return (
@@ -42,12 +44,30 @@ const Home: React.FC = () => {
         <Container>
           <SectionTitle>Skills</SectionTitle>
           <SkillsGrid>
-            <SkillItem>React</SkillItem>
-            <SkillItem>TypeScript</SkillItem>
-            <SkillItem>JavaScript</SkillItem>
-            <SkillItem>Node.js</SkillItem>
-            <SkillItem>CSS</SkillItem>
-            <SkillItem>Git</SkillItem>
+            <SkillItem>
+              <FaReact size={40} />
+              <span>React</span>
+            </SkillItem>
+            <SkillItem>
+              <SiTypescript size={40} />
+              <span>TypeScript</span>
+            </SkillItem>
+            <SkillItem>
+              <FaJs size={40} />
+              <span>JavaScript</span>
+            </SkillItem>
+            <SkillItem>
+              <FaNodeJs size={40} />
+              <span>Node.js</span>
+            </SkillItem>
+            <SkillItem>
+              <FaCss3Alt size={40} />
+              <span>CSS</span>
+            </SkillItem>
+            <SkillItem>
+              <FaGitAlt size={40} />
+              <span>Git</span>
+            </SkillItem>
           </SkillsGrid>
         </Container>
       </SkillsSection>
@@ -193,14 +213,23 @@ const SkillsGrid = styled.div`
 const SkillItem = styled.div`
   background: #007bff;
   color: white;
-  padding: 15px 20px;
-  border-radius: 8px;
+  padding: 20px;
+  border-radius: 12px;
   text-align: center;
   font-weight: 600;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 
   &:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 123, 255, 0.3);
+  }
+
+  span {
+    font-size: 0.9rem;
   }
 `;
 
