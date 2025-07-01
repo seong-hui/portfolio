@@ -86,7 +86,7 @@ const Projects: React.FC = () => {
 
         <ProjectItem>
           <ProjectHeader>
-            <ProjectTitle>절로가</ProjectTitle>
+            <ProjectTitle to="/projects/jeolloga">절로가</ProjectTitle>
             <ProjectLinks>
               <ProjectLink
                 href="https://www.gototemplestay.com/"

@@ -198,6 +198,215 @@ const ProjectDetail: React.FC = () => {
     );
   }
 
+  if (id === "jeolloga") {
+    return (
+      <DetailSection>
+        <Container>
+          <BackButton to="/projects">
+            <FaArrowLeft /> 프로젝트 목록으로 돌아가기
+          </BackButton>
+          
+          <Header>
+            <Title>절로가</Title>
+            <Links>
+              <ProjectLink href="https://www.gototemplestay.com/" target="_blank">
+                <FaExternalLinkAlt /> 서비스 바로가기
+              </ProjectLink>
+              <ProjectLink href="https://github.com/JEOLLOGA/JEOLLOGA-CLIENT" target="_blank">
+                <FaGithub /> 깃허브 바로가기
+              </ProjectLink>
+            </Links>
+          </Header>
+
+          <Section>
+            <SectionTitle>서비스 소개</SectionTitle>
+            <Content>
+              <p>원하는 템플스테이를 쉽고 빠르게 찾을 수 있는 검색 기반 탐색 서비스입니다.</p>
+              
+              <FeatureItem>
+                <h4>세분화된 검색 필터</h4>
+                <p>지역 / 유형 / 목적 / 체험 / 가격 등 다양한 조건을 조합하여 원하는 템플스테이를 빠르게 찾을 수 있습니다.</p>
+              </FeatureItem>
+              
+              <FeatureItem>
+                <h4>찜 기능</h4>
+                <p>관심 있는 템플스테이를 저장해두고, 나중에 다시 쉽게 확인할 수 있습니다.</p>
+              </FeatureItem>
+              
+              <FeatureItem>
+                <h4>템플스테이 상세 페이지</h4>
+                <p>해당 템플스테이의 블로그 후기, 프로그램 일정, 가격 정보, 위치 지도를 한눈에 확인할 수 있습니다.</p>
+                <p>크롤링 기반 후기 통합으로 각 블로그를 일일이 방문하지 않아도 사용자 리뷰를 한 곳에서 볼 수 있습니다.</p>
+              </FeatureItem>
+            </Content>
+          </Section>
+
+          <Section>
+            <SectionTitle>개발 내용</SectionTitle>
+            <Content>
+              <DevItem>
+                <h4>템플스테이 검색 필터 기능 구현</h4>
+                
+                <SubSection>
+                  <h5>기능 개요</h5>
+                  <ul>
+                    <li>약 50개의 필터 항목(지역, 체험 유형, 프로그램 특징 등) 중 원하는 조건을 자유롭게 조합할 수 있습니다.</li>
+                    <li>선택한 조건에 따라 템플스테이 검색 결과는 실시간으로 반영됩니다.</li>
+                  </ul>
+                </SubSection>
+
+                <SubSection>
+                  <h5>초기 구조의 문제</h5>
+                  <p>서버에서는 초기 아래와 같은 비트 문자열 구조를 요청했습니다.</p>
+                  <CodeBlock>"01010100011010"</CodeBlock>
+                  <p>그러나 이 방식은 다음과 같은 한계를 가진다고 생각했습니다.</p>
+                  <ul>
+                    <li><strong>순서 의존</strong> → 필터 순서가 바뀌면 서버와 동기화가 무너짐</li>
+                    <li><strong>가독성 부족</strong> → 선택된 필터가 무엇인지 쉽게 파악하기 어려움</li>
+                    <li><strong>확장성 부족</strong> → 필터 항목이 변경되면 전체 구조를 수정해야 함</li>
+                  </ul>
+                </SubSection>
+
+                <SubSection>
+                  <h5>개선 구조 제안 및 서버 협의</h5>
+                  <p>서버와의 협업을 통해 실제 API 구조에 반영되었고, 이후 모든 필터 상태는 명확한 구조로 관리되고 있습니다.</p>
+                  <CodeBlock>
+{`{
+  "region": {
+    "서울": 1,
+    "부산": 0
+    ...
+  },
+  "type": {
+    "체험형": 1,
+    "휴식형": 0
+  },
+  ...
+}`}
+                  </CodeBlock>
+                  <p><strong>구조 개선의 효과</strong></p>
+                  <ul>
+                    <li>선택 항목을 명확히 표현할 수 있어 디버깅 및 유지보수 용이</li>
+                    <li>필터 그룹 추가/수정에 유연하게 대응 가능</li>
+                    <li>서버와의 계약 구조가 명확해져 확장성과 안정성 확보</li>
+                  </ul>
+                </SubSection>
+
+                <SubSection>
+                  <h5>구조 설계: 클래스 기반 필터 모델</h5>
+                  <p><strong>Filter 클래스</strong></p>
+                  <p>Filter 클래스는 필터 항목 하나의 상태와 동작(토글, 조회)을 관리합니다.</p>
+                  <CodeBlock>
+{`class Filter {
+  private name: string;
+  private group: string;
+  private state: number;
+
+  constructor(name: string, group: string, state = 0) { ... }
+
+  toggleStatus(): void { ... }
+  getState(): number { ... }
+  getGroup(): string { ... }
+  ...
+}`}
+                  </CodeBlock>
+                  
+                  <p><strong>FilterList 클래스</strong></p>
+                  <p>FilterList는 전체 필터를 관리하며, 상태 초기화, 그룹별 정리, 서버 전송 구조로 가공하는 책임을 가집니다.</p>
+                  <p>전체 필터를 Map&lt;string, Filter&gt; 형태로 저장하여, 이름 기준으로 O(1) 접근이 가능하도록 설계했습니다.</p>
+                  <CodeBlock>
+{`class FilterList {
+  private filters: Map<string, Filter>;
+
+  constructor(initData: Record<string, string[]>) { ... }
+
+  toggleStatus(name: string): void { ... }
+  getGroupedStates(): Record<string, Record<string, number>> { ... }
+  ...
+}`}
+                  </CodeBlock>
+                </SubSection>
+
+                <SubSection>
+                  <h5>전역 상태 공유 – 모듈 단위 싱글턴 구현</h5>
+                  <ul>
+                    <li>필터는 여러 컴포넌트와 페이지에서 공통으로 사용되므로 일관된 전역 상태 관리가 필요했습니다.</li>
+                    <li>JavaScript의 ES 모듈은 처음 import될 때 한 번만 평가되며, 그 이후에는 캐싱된 인스턴스를 재사용합니다.</li>
+                    <li>이 특성을 활용해, 별도의 상태 관리 라이브러리 없이도 필터 모델을 싱글턴으로 구현할 수 있었습니다.</li>
+                  </ul>
+                </SubSection>
+
+                <SubSection>
+                  <h5>useFilter 훅 구현</h5>
+                  <ul>
+                    <li>필터 상태 관리 로직을 useFilter 커스텀 훅으로 캡슐화해, 컴포넌트에서 손쉽게 사용할 수 있도록 구현했습니다.</li>
+                    <li>필터 토글, 초기화, 상태 조회 등 주요 기능을 일관된 인터페이스로 제공해 컴포넌트 간 재사용성과 유지보수성을 높였습니다.</li>
+                  </ul>
+                </SubSection>
+
+                <SubSection>
+                  <h5>설계 및 구현 요약</h5>
+                  <ul>
+                    <li>필터 상태는 클래스 기반으로 설계해, 상태 조작과 유지보수가 명확하고 일관되게 이루어지도록 했습니다.</li>
+                    <li>전역 인스턴스를 모듈 단위로 공유해, 상태 일관성을 유지하고 불필요한 인스턴스 생성을 방지했습니다.</li>
+                    <li>useFilter 훅을 통해 컴포넌트 간 재사용성과 캡슐화된 인터페이스를 제공했습니다.</li>
+                    <li>서버와의 협업 과정에서 전달 데이터 구조를 직접 제안하고 실제 API 구조에 반영되도록 이끌었습니다.</li>
+                  </ul>
+                </SubSection>
+
+                <SubSection>
+                  <h5>이 경험을 통해</h5>
+                  <p>이 경험을 통해 커스텀 훅 추상화와 모듈 캐싱 기반 싱글턴 패턴을 실제 서비스에 적용해보며, 재사용 가능한 상태 관리 구조를 설계하는 감각을 익힐 수 있었습니다.</p>
+                  <p>단순히 UI를 구현하는 것을 넘어 상태를 어떻게 설계하고 유지할 것인지, 서버와 어떤 형식으로 소통해야 구조적으로 안정적인 협업이 되는지 깊이 고민할 수 있었던 계기가 되었습니다.</p>
+                  <p>초기 설계부터 구조 개선, 협업 제안까지 직접 주도하면서, 기능을 작동하게 만드는 것을 넘어서 확장 가능하고 명확하게 설계된 구조의 중요성을 실감할 수 있었습니다.</p>
+                </SubSection>
+              </DevItem>
+            </Content>
+          </Section>
+
+          <Section>
+            <SectionTitle>협업 과정</SectionTitle>
+            <Content>
+              <p>프론트엔드 리드로서 단순히 개발을 이끄는 것을 넘어, 2주간의 짧은 개발 기간 동안 팀이 한 방향으로 흔들림 없이 나아갈 수 있도록 협업 문화를 설계하고 주도했습니다.</p>
+              
+              <CollabItem>
+                <h4>스스로 기록하는 오늘의 할 일</h4>
+                <ul>
+                  <li>팀원 각자가 매일 하루의 작업 계획을 직접 작성하고 공유했습니다.</li>
+                  <li>이 과정을 통해 각자의 목표와 진행 상황이 시각화되었고, 메타 인지력과 책임감을 높이는 습관이 자연스럽게 자리 잡았습니다.</li>
+                </ul>
+              </CollabItem>
+
+              <CollabItem>
+                <h4>매일 밤에 진행한 데일리 스크럼</h4>
+                <ul>
+                  <li>매일 밤, 각자의 완료한 작업 / 진행 중인 작업 / 발생한 이슈를 공유했습니다.</li>
+                  <li>단순한 일정 공유를 넘어 "우리는 지금 무엇을 만들고자 하는가"를 함께 되짚는 시간을 만들고자 했습니다.</li>
+                  <li>각자의 역할이 전체 목표에 어떻게 기여하고 있는지를 인식하며 서로의 속도를 존중하고 리듬을 맞춰가는 협업 환경을 만들고자 했습니다.</li>
+                </ul>
+                <p><em>한 팀원은 "적당한 긴장감과 동기부여가 생겨 하루를 더 집중 있게 보낼 수 있었다"고 말해주었고 그 말은 오랫동안 기억에 남았습니다.</em></p>
+              </CollabItem>
+
+              <CollabItem>
+                <h4>이 경험을 통해</h4>
+                <SubSection>
+                  <h5>목표 공유의 중요성</h5>
+                  <p>프로젝트를 진행하며 <strong>'우리가 같은 목표를 향해 나아가고 있다'는 감각을 팀과 끊임없이 공유하는 것 자체</strong>가 프로덕트를 완성도 있게 만들어가는 데 있어 핵심이라는 걸 배웠습니다.</p>
+                  <p>단순히 작업을 나누는 수준을 넘어서 <strong>'무엇을, 왜 만들고 있는가'를 함께 상기시키는 문화</strong>가 팀 전체의 몰입도와 결과물의 방향성을 결정짓는다는 것을 체감했습니다.</p>
+                </SubSection>
+                
+                <SubSection>
+                  <h5>정기적인 소통의 힘</h5>
+                  <p>하루의 시작과 끝을 정리하는 루틴은 팀 전체를 하나로 연결하는 강력한 도구였습니다. 이 흐름 덕분에 팀원 모두가 같은 맥락 안에서 빠르게 몰입할 수 있었고 <strong>정기적인 공유가 팀의 몰입과 안정감에 큰 영향을 준다는 것을</strong> 실감했습니다.</p>
+                </SubSection>
+              </CollabItem>
+            </Content>
+          </Section>
+        </Container>
+      </DetailSection>
+    );
+  }
+
   return (
     <DetailSection>
       <Container>
@@ -379,6 +588,49 @@ const ResultItem = styled.div`
   h4 {
     color: #e65100;
     margin-bottom: 0.5rem;
+  }
+`;
+
+const FeatureItem = styled.div`
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #f0f8ff;
+  border-left: 4px solid #007bff;
+  border-radius: 8px;
+
+  h4 {
+    color: #007bff;
+    margin-bottom: 0.5rem;
+  }
+`;
+
+const CodeBlock = styled.pre`
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  color: #333;
+`;
+
+const CollabItem = styled.div`
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #f5f0ff;
+  border-left: 4px solid #6f42c1;
+  border-radius: 8px;
+
+  h4 {
+    color: #6f42c1;
+    margin-bottom: 0.5rem;
+  }
+  
+  em {
+    color: #6c757d;
+    font-style: italic;
   }
 `;
 
