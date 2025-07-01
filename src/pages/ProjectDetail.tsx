@@ -407,6 +407,153 @@ const ProjectDetail: React.FC = () => {
     );
   }
 
+  if (id === "shellin") {
+    return (
+      <DetailSection>
+        <Container>
+          <BackButton to="/projects">
+            <FaArrowLeft /> 프로젝트 목록으로 돌아가기
+          </BackButton>
+          
+          <Header>
+            <Title>Shellin</Title>
+            <Links>
+              <ProjectLink href="https://shellin.kr/" target="_blank">
+                <FaExternalLinkAlt /> 서비스 바로가기
+              </ProjectLink>
+              <ProjectLink href="https://github.com/TEAM-DAWM/SHELLIN-CLIENT" target="_blank">
+                <FaGithub /> 깃허브 바로가기
+              </ProjectLink>
+            </Links>
+          </Header>
+
+          <Section>
+            <SectionTitle>Shellin이 만들어진 이유</SectionTitle>
+            <Content>
+              <p>하루를 더 잘 설계하고 싶다는 필요에서 출발한 프로젝트입니다.</p>
+              
+              <p>처음에는 단순히 해야 할 일을 메모장에 적고 지우는 습관에서 시작했지만 점차 작업별 소요 시간, 하루의 흐름, 우선순위를 더 잘 파악하고 싶어졌습니다.</p>
+              
+              <p>그러나 기존 도구들은 분산되어 있었습니다:</p>
+              <ul>
+                <li>일정은 메모장에</li>
+                <li>오늘의 할 일은 할 일 앱에</li>
+                <li>전체 스케줄은 캘린더로 확인해야 했습니다.</li>
+              </ul>
+              
+              <p>이처럼 일정 관리가 도구 간 분절되어 흐름이 끊기는 경험을 개선하고자,</p>
+              
+              <p><strong>할 일 기록 → 오늘 계획 수립 → 시간 배치까지 한 흐름으로 이어지는 일정 관리 도구 Shellin을 기획,개발하게 되었습니다.</strong></p>
+            </Content>
+          </Section>
+
+          <Section>
+            <SectionTitle>핵심 기능</SectionTitle>
+            <Content>
+              <FeatureItem>
+                <h4>해야 할 일 전부 기록 (언젠가 할 일 포함)</h4>
+                <ul>
+                  <li>오늘 당장 하지 않아도 될 일을 포함한 모든 작업 기록 가능</li>
+                  <li>최신순, 오래된 순, 마감일 순 등 원하는 기준으로 정렬 가능</li>
+                  <li>각 작업은 할 일 / 진행중 / 완료로 상태 분리 가능</li>
+                </ul>
+              </FeatureItem>
+              
+              <FeatureItem>
+                <h4>오늘 계획으로 끌어오기</h4>
+                <ul>
+                  <li>기록된 작업을 오늘 계획에 드래그 앤 드롭으로 간편하게 추가</li>
+                  <li>완료되지 않은 작업은 자동으로 다음 날로 이월되어 누락 방지</li>
+                </ul>
+              </FeatureItem>
+              
+              <FeatureItem>
+                <h4>타임라인 기반 일정 시각화</h4>
+                <ul>
+                  <li>오늘의 할 일을 시간 블록 단위로 배치해 하루의 흐름을 한눈에 파악</li>
+                  <li>주간 / 월간 단위로 전환해 큰 일정 흐름까지 함께 관리 가능</li>
+                </ul>
+              </FeatureItem>
+            </Content>
+          </Section>
+
+          <Section>
+            <SectionTitle>개발 내용</SectionTitle>
+            <Content>
+              <DevItem>
+                <h4>주요 기능 구현</h4>
+                <ul>
+                  <li>일정 수정 모달 기능 구현</li>
+                  <li>Context API 기반 Toast 알림 시스템 개발로 전역 알림 관리</li>
+                  <li>fullCalendar 라이브러리 커스텀을 통해 UI 디자인을 맞춤 구현</li>
+                  <li>구글 로그인 및 구글 캘린더 연동 기능 구현</li>
+                </ul>
+              </DevItem>
+
+              <DevItem>
+                <h4>Toast 알림 시스템 구현</h4>
+                <p>Context API를 활용해 전역에서 사용 가능한 Toast 알림 시스템을 구현했습니다.</p>
+                <ul>
+                  <li>ToastProvider로 전역 상태 관리</li>
+                  <li>useToast 훅으로 간편한 사용 인터페이스 제공</li>
+                  <li>성공, 오류, 정보 등 다양한 타입의 알림 지원</li>
+                  <li>자동 사라짐 및 수동 닫기 기능</li>
+                </ul>
+              </DevItem>
+
+              <DevItem>
+                <h4>fullCalendar 커스터마이징</h4>
+                <p>fullCalendar 라이브러리를 프로젝트의 디자인 시스템에 맞게 커스터마이징했습니다.</p>
+                <ul>
+                  <li>CSS 변수를 활용한 테마 색상 적용</li>
+                  <li>커스텀 이벤트 렌더링으로 일관된 UI 제공</li>
+                  <li>드래그 앤 드롭 기능을 통한 직관적인 일정 수정</li>
+                  <li>모바일 반응형 디자인 적용</li>
+                </ul>
+              </DevItem>
+
+              <DevItem>
+                <h4>구글 서비스 연동</h4>
+                <p>구글 로그인과 구글 캘린더 연동을 통해 사용자 편의성을 높였습니다.</p>
+                <ul>
+                  <li>Google OAuth 2.0을 활용한 안전한 로그인 구현</li>
+                  <li>Google Calendar API를 통한 일정 동기화</li>
+                  <li>기존 구글 캘린더 일정을 Shellin으로 가져오기</li>
+                  <li>Shellin에서 작성한 일정을 구글 캘린더로 내보내기</li>
+                </ul>
+              </DevItem>
+            </Content>
+          </Section>
+
+          <Section>
+            <SectionTitle>프로젝트를 통해 얻은 경험</SectionTitle>
+            <Content>
+              <ResultItem>
+                <h4>사용자 중심 사고의 중요성</h4>
+                <p>단순히 기능을 나열하는 것이 아니라, 실제 사용자가 어떤 문제를 겪고 있는지를 깊이 이해하고 이를 해결하는 방향으로 서비스를 설계하는 경험을 했습니다.</p>
+              </ResultItem>
+
+              <ResultItem>
+                <h4>전역 상태 관리의 중요성</h4>
+                <p>Toast 알림 시스템을 구현하면서 Context API를 활용한 전역 상태 관리의 효율성을 체감했습니다. 컴포넌트 간 상태 공유와 일관된 사용자 경험 제공의 중요성을 배웠습니다.</p>
+              </ResultItem>
+
+              <ResultItem>
+                <h4>라이브러리 커스터마이징 역량</h4>
+                <p>fullCalendar를 프로젝트에 맞게 커스터마이징하면서, 기존 라이브러리를 활용하면서도 원하는 디자인과 기능을 구현하는 능력을 기렀습니다.</p>
+              </ResultItem>
+
+              <ResultItem>
+                <h4>외부 API 연동 경험</h4>
+                <p>구글 로그인과 캘린더 API 연동을 통해 외부 서비스와의 연동 경험을 쌓았습니다. OAuth 인증 플로우와 API 호출 최적화에 대해 학습할 수 있었습니다.</p>
+              </ResultItem>
+            </Content>
+          </Section>
+        </Container>
+      </DetailSection>
+    );
+  }
+
   return (
     <DetailSection>
       <Container>

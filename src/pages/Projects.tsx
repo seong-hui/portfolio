@@ -246,7 +246,7 @@ const Projects: React.FC = () => {
 
         <ProjectItem>
           <ProjectHeader>
-            <ProjectTitle>Shellin</ProjectTitle>
+            <ProjectTitle to="/projects/shellin">Shellin</ProjectTitle>
             <ProjectLinks>
               <ProjectLink href="https://shellin.kr/" target="_blank">
                 <FaExternalLinkAlt /> 서비스 바로가기
