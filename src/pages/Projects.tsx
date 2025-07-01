@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 
 const Projects: React.FC = () => {
@@ -10,7 +11,7 @@ const Projects: React.FC = () => {
 
         <ProjectItem>
           <ProjectHeader>
-            <ProjectTitle>42Cabi</ProjectTitle>
+            <ProjectTitle to="/projects/42cabi">42Cabi</ProjectTitle>
             <ProjectLinks>
               <ProjectLink href="https://cabi.42seoul.io/home" target="_blank">
                 <FaExternalLinkAlt /> 서비스 바로가기
@@ -340,10 +341,17 @@ const ProjectHeader = styled.div`
   }
 `;
 
-const ProjectTitle = styled.h2`
+const ProjectTitle = styled(Link)`
   font-size: 2rem;
   color: #333;
   margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #007bff;
+  }
 `;
 
 const ProjectLinks = styled.div`
