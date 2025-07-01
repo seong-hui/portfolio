@@ -13,9 +13,7 @@ const Home: React.FC = () => {
             <h1>안녕하세요, 개발자입니다</h1>
             <p>창의적이고 효율적인 솔루션을 만드는 것을 좋아합니다.</p>
             <CTAButtons>
-              <Button href="#projects" variant="primary">
-                프로젝트 보기
-              </Button>
+              <ProjectButton to="/projects">프로젝트 보기</ProjectButton>
               <Button href="#contact" variant="secondary">
                 연락하기
               </Button>
@@ -183,6 +181,22 @@ const AboutContent = styled.div`
     line-height: 1.8;
     margin-bottom: 1.5rem;
     color: #666;
+  }
+`;
+
+const ProjectButton = styled(Link)`
+  padding: 12px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  background: #007bff;
+  color: white;
+
+  &:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
   }
 `;
 
