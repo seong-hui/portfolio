@@ -5,6 +5,7 @@ import AboutMe from "./pages/AboutMe";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Blog from "./pages/Blog";
+import NotionPage from "./pages/NotionPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<ProjectDetail />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/notion" element={<NotionPage />} />
         </Routes>
       </Layout>
     </Router>

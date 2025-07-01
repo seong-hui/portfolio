@@ -22,6 +22,9 @@ const Header: React.FC = () => {
             <li>
               <Link to="/blog">Blog</Link>
             </li>
+            <li>
+              <Link to="/notion">Notion</Link>
+            </li>
           </ul>
         </Nav>
       </Container>
