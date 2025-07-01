@@ -9,20 +9,20 @@ const Footer: React.FC = () => {
           <p>&copy; 2025 Portfolio. All rights reserved.</p>
           <SocialLinks>
             <a
-              href="https://github.com"
+              href="https://github.com/seong-hui"
               target="_blank"
               rel="noopener noreferrer"
             >
               GitHub
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/seonghui-moon-86499934b/"
               target="_blank"
               rel="noopener noreferrer"
             >
               LinkedIn
             </a>
-            <a href="mailto:contact@example.com">Email</a>
+            <a href="mailto:msh9980@naver.com">Email</a>
           </SocialLinks>
         </FooterContent>
       </Container>
