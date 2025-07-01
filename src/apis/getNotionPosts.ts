@@ -41,4 +41,22 @@ export async function fetchNotionItems() {
   }
 }
 
+export async function fetchNotionPageContent(pageId: string) {
+  const notionKey = import.meta.env.VITE_NOTION_TOKEN;
+  const url = `/api/notion/blocks/${pageId}/children`;
+
+  try {
+    const { data } = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${notionKey}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return data;
+  } catch (err) {
+    console.error("Notion 페이지 콘텐츠 호출 실패:", err);
+    throw err;
+  }
+}
+
 export default fetchNotionItems;

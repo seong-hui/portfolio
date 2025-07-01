@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { fetchNotionItems } from "../apis/getNotionPosts";
 
@@ -67,6 +68,11 @@ type NotionApiResponse = {
 const NotionPage: React.FC = () => {
   const [posts, setPosts] = useState<NotionPost[]>([]);
   const [loading, setLoad] = useState(true);
+  const navigate = useNavigate();
+
+  const handlePostClick = (postId: string) => {
+    navigate(`/notion/${postId}`);
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -127,7 +133,7 @@ const NotionPage: React.FC = () => {
       ) : (
         <PostGrid>
           {posts.map((post) => (
-            <PostCard key={post.id}>
+            <PostCard key={post.id} onClick={() => handlePostClick(post.id)}>
               <PostHeader>
                 <PostIcon>{post.icon}</PostIcon>
                 <PostTitle>{post.title}</PostTitle>
@@ -164,14 +170,6 @@ const NotionPage: React.FC = () => {
                   ))}
                 </TagList>
               )}
-
-              <PostLink
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Notion에서 열기
-              </PostLink>
             </PostCard>
           ))}
         </PostGrid>
@@ -213,6 +211,7 @@ const PostCard = styled.div`
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
@@ -363,23 +362,6 @@ const Tag = styled.span<{ color: string }>`
     };
     return textColorMap[color] || textColorMap.default;
   }};
-`;
-
-const PostLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: #000;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: #333;
-  }
 `;
 
 export default NotionPage;
