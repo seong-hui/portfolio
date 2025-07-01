@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 import { FaReact, FaJs, FaNodeJs, FaGitAlt, FaCss3Alt } from "react-icons/fa";
 import { SiTypescript } from "react-icons/si";
 
@@ -35,7 +36,7 @@ const Home: React.FC = () => {
               새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며, 깔끔하고
               효율적인 코드를 작성하기 위해 노력합니다.
             </p>
-            <AboutButton href="/aboutme">더 자세히 보기</AboutButton>
+            <AboutButton to="/about">더 자세히 보기</AboutButton>
           </AboutContent>
         </Container>
       </AboutSection>
@@ -185,7 +186,7 @@ const AboutContent = styled.div`
   }
 `;
 
-const AboutButton = styled.a`
+const AboutButton = styled(Link)`
   display: inline-block;
   margin-top: 1rem;
   padding: 12px 30px;

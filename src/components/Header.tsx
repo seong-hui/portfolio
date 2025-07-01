@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   return (
@@ -7,11 +8,14 @@ const Header: React.FC = () => {
       <Container>
         <Logo>
           <h1>
-            <a href="/">Portfolio</a>
+            <Link to="/">Portfolio</Link>
           </h1>
         </Logo>
         <Nav>
           <ul>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
             <li>
               <a href="#projects">Projects</a>
             </li>
