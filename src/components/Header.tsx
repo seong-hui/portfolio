@@ -8,7 +8,7 @@ const Header: React.FC = () => {
       <Container>
         <Logo>
           <h1>
-            <Link to="/">Portfolio</Link>
+            <Link to="/">Seonghui Portfolio</Link>
           </h1>
         </Logo>
         <Nav>
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
               <Link to="/projects">Projects</Link>
             </li>
             <li>
-              <a href="#blog">Blog</a>
+              <Link to="/blog">Blog</Link>
             </li>
           </ul>
         </Nav>
