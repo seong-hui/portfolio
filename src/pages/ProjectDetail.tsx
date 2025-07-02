@@ -14,6 +14,10 @@ const ProjectDetail: React.FC = () => {
             <FaArrowLeft /> 프로젝트 목록으로 돌아가기
           </BackButton>
 
+          <ProjectImage>
+            <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop" alt="42Cabi 프로젝트" />
+          </ProjectImage>
+
           <Header>
             <Title>42Cabi</Title>
             <Links>
@@ -365,6 +369,10 @@ const ProjectDetail: React.FC = () => {
           <BackButton to="/projects">
             <FaArrowLeft /> 프로젝트 목록으로 돌아가기
           </BackButton>
+
+          <ProjectImage>
+            <img src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&h=400&fit=crop" alt="절로가 프로젝트" />
+          </ProjectImage>
 
           <Header>
             <Title>절로가</Title>
@@ -724,6 +732,10 @@ const ProjectDetail: React.FC = () => {
             <FaArrowLeft /> 프로젝트 목록으로 돌아가기
           </BackButton>
 
+          <ProjectImage>
+            <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop" alt="Shellin 프로젝트" />
+          </ProjectImage>
+
           <Header>
             <Title>Shellin</Title>
             <Links>
@@ -962,6 +974,21 @@ const BackButton = styled(Link)`
   &:hover {
     background: #5a6268;
     transform: translateY(-2px);
+  }
+`;
+
+const ProjectImage = styled.div`
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
