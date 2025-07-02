@@ -41,9 +41,10 @@ export const handler = async (event) => {
   return {
     statusCode: upstream.status,
     headers: {
-      "Access-Control-Allow-Origin": "https://d20mw34qewxakn.cloudfront.net",
+      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type,Authorization",
+      "Access-Control-Allow-Headers":
+        "Content-Type,Authorization,Notion-Version",
       ...Object.fromEntries(upstream.headers), // JSON / HTML 등 그대로 전달
     },
     body: text,
