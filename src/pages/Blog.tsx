@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { FaExternalLinkAlt, FaCalendarAlt, FaEye } from "react-icons/fa";
+import { FaExternalLinkAlt, FaCalendarAlt } from "react-icons/fa";
 import { colors } from "../styles/colors";
+import { Spinner } from "../components/Spinner";
 
 interface VelogPost {
   id: string;
@@ -10,9 +11,7 @@ interface VelogPost {
   thumbnail: string;
   url_slug: string;
   released_at: string;
-  stats: {
-    total: number;
-  };
+
   tags: string[];
 }
 
@@ -69,7 +68,6 @@ const Blog: React.FC = () => {
                 thumbnail: item.thumbnail || "",
                 url_slug: urlSlug,
                 released_at: item.pubDate,
-                stats: { total: Math.floor(Math.random() * 200) + 50 }, // RSS에서 조회수 제공 안함
                 tags: tags,
               };
             });
@@ -102,7 +100,9 @@ const Blog: React.FC = () => {
       <BlogSection>
         <Container>
           <Title>Velog</Title>
-          <LoadingMessage>블로그 글을 불러오는 중...</LoadingMessage>
+          <LoadingWrapper>
+            <Spinner text="블로그 글을 불러오는 중..." />
+          </LoadingWrapper>
         </Container>
       </BlogSection>
     );
@@ -152,11 +152,6 @@ const Blog: React.FC = () => {
                   <MetaItem>
                     <FaCalendarAlt />
                     <span>{formatDate(post.released_at)}</span>
-                  </MetaItem>
-
-                  <MetaItem>
-                    <FaEye />
-                    <span>{post.stats.total}회</span>
                   </MetaItem>
                 </PostMeta>
 
@@ -211,11 +206,11 @@ const Description = styled.p`
   margin-bottom: 4rem;
 `;
 
-const LoadingMessage = styled.div`
-  text-align: center;
-  font-size: 1.2rem;
-  color: ${colors.textSecondary};
-  padding: 4rem 0;
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
 `;
 
 const ErrorMessage = styled.div`

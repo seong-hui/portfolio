@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -48,6 +48,16 @@ interface NotionPage {
 }
 
 const Home: React.FC = () => {
+  const [currentText, setCurrentText] = useState(0);
+  const texts = ["개발자", "프론트엔드 개발자", "문성희"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText((prev) => (prev + 1) % texts.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { data: notionPosts = [] } = useQuery<NotionPost[]>({
     queryKey: ["notion-posts-home"],
     queryFn: async () => {
@@ -82,7 +92,12 @@ const Home: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                안녕하세요, 개발자입니다
+                안녕하세요,
+                <br />
+                <AnimatedText key={currentText}>
+                  {texts[currentText]}
+                </AnimatedText>
+                입니다
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -315,6 +330,22 @@ const HeroContent = styled.div`
     font-size: 1.2rem;
     margin-bottom: 2rem;
     opacity: 0.9;
+  }
+`;
+
+const AnimatedText = styled(motion.span)`
+  display: inline-block;
+  animation: fadeInOut 0.5s ease-in-out;
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 
