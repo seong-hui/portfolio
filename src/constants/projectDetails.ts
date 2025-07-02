@@ -36,11 +36,7 @@ export const PROJECT_DETAILS: ProjectDetailData[] = [
   {
     id: "42cabi",
     title: "42Cabi",
-    images: [
-      "/src/assets/images/cabi.png",
-      "/src/assets/images/cabi2.gif",
-      "/src/assets/images/cabi3.gif",
-    ],
+    images: ["/images/cabi.png", "/images/cabi2.gif", "/images/cabi3.gif"],
     links: [
       {
         href: "https://cabi.42seoul.io/home",
@@ -249,9 +245,9 @@ export const PROJECT_DETAILS: ProjectDetailData[] = [
     id: "jeolloga",
     title: "절로가",
     images: [
-      "/src/assets/images/jeolloga.png",
-      "/src/assets/images/jeolloga2.png",
-      "/src/assets/images/jeolloga3.gif",
+      "/images/jeolloga.png",
+      "/images/jeolloga2.png",
+      "/images/jeolloga3.gif",
     ],
     links: [
       {
@@ -337,10 +333,7 @@ export const PROJECT_DETAILS: ProjectDetailData[] = [
   {
     id: "shellin",
     title: "Shellin",
-    images: [
-      "/src/assets/images/shellin.png",
-      "/src/assets/images/shellin2.gif",
-    ],
+    images: ["/images/shellin.png", "/images/shellin2.gif"],
     links: [
       {
         href: "https://shellin.kr/",
