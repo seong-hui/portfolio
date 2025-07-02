@@ -6,6 +6,7 @@ import {
   PROJECT_DETAILS,
   type ProjectDetailData,
 } from "../constants/projectDetails";
+import { colors } from "../styles/colors";
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -215,17 +216,18 @@ const BackButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #6c757d;
-  color: white;
+  padding: 0.5rem 1rem;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 25px;
   font-weight: 500;
   margin-bottom: 2rem;
   transition: all 0.3s ease;
+  color: ${colors.gray600};
+  border: 2px solid ${colors.gray300};
+  background: ${colors.gray50};
 
   &:hover {
-    background: #5a6268;
+    background: ${colors.gray200};
     transform: translateY(-2px);
   }
 `;
@@ -270,16 +272,17 @@ const ProjectLink = styled.a`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: #007bff;
-  color: white;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 26px;
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
 
+  color: ${colors.gray600};
+  border: 2px solid ${colors.gray300};
+
   &:hover {
-    background: #0056b3;
+    background: ${colors.gray200};
     transform: translateY(-2px);
   }
 `;

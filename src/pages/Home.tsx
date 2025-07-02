@@ -7,19 +7,58 @@ import { useQuery } from "@tanstack/react-query";
 import { colors } from "../styles/colors";
 import { fetchNotionItems } from "../apis/getNotionPosts";
 import { NotionTag } from "../components/NotionTag";
+import { Button } from "../components/Button";
+
+interface NotionPost {
+  id: string;
+  title: string;
+  icon: string;
+  content: string;
+  organization: {
+    name: string;
+    color: string;
+  } | null;
+  created_time: string;
+}
+
+interface NotionPage {
+  id: string;
+  icon?: {
+    emoji?: string;
+  };
+  properties: {
+    이름?: {
+      title?: Array<{
+        plain_text: string;
+      }>;
+    };
+    내용?: {
+      rich_text?: Array<{
+        plain_text: string;
+      }>;
+    };
+    소속?: {
+      multi_select?: Array<{
+        name: string;
+        color: string;
+      }>;
+    };
+  };
+  created_time: string;
+}
 
 const Home: React.FC = () => {
-  const { data: notionPosts = [] } = useQuery({
+  const { data: notionPosts = [] } = useQuery<NotionPost[]>({
     queryKey: ["notion-posts-home"],
     queryFn: async () => {
       const data = await fetchNotionItems();
-      return data.results.slice(0, 3).map((page: any) => ({
+      return data.results.slice(0, 3).map((page: NotionPage) => ({
         id: page.id,
         title: page.properties["이름"]?.title?.[0]?.plain_text || "Untitled",
         icon: page.icon?.emoji || "📝",
         content:
           page.properties["내용"]?.rich_text
-            ?.map((text: any) => text.plain_text)
+            ?.map((text) => text.plain_text)
             .join("")
             .substring(0, 100) || "",
         organization: page.properties["소속"]?.multi_select?.[0] || null,
@@ -135,7 +174,7 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   viewport={{ once: true }}
                 >
-                  <AboutButton to="/about">더 자세히 보기</AboutButton>
+                  <Button to="/about">더 자세히 보기</Button>
                 </motion.div>
               </AboutContent>
             </AboutContentWrapper>
@@ -168,7 +207,7 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.8, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <ProjectButton to="/projects">프로젝트 보기</ProjectButton>
+                  <Button to="/projects">더 자세히 보기</Button>
                 </motion.div>
               </ProjectContent>
               <ProjectImageWrapper>
@@ -201,7 +240,7 @@ const Home: React.FC = () => {
           >
             <SectionTitle>Recent Posts</SectionTitle>
             <NotionGrid>
-              {notionPosts.map((post: any, index: number) => (
+              {notionPosts.map((post: NotionPost, index: number) => (
                 <motion.div
                   key={post.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -229,7 +268,9 @@ const Home: React.FC = () => {
                 </motion.div>
               ))}
             </NotionGrid>
-            <NotionButton to="/notion">모든 글 보기</NotionButton>
+            <Button to="/notion" centered>
+              더 자세히 보기
+            </Button>
           </motion.div>
         </Container>
       </NotionSection>
@@ -408,39 +449,6 @@ const ProjectImage = styled.div`
   }
 `;
 
-const ProjectButton = styled(Link)`
-  padding: 12px 30px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: inline-block;
-  background: ${colors.primary};
-  color: ${colors.white};
-
-  &:hover {
-    background: ${colors.primaryDark};
-    transform: translateY(-2px);
-  }
-`;
-
-const AboutButton = styled(Link)`
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 12px 30px;
-  background: ${colors.primary};
-  color: ${colors.white};
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: ${colors.primaryDark};
-    transform: translateY(-2px);
-  }
-`;
-
 const NotionSection = styled.section`
   padding: 80px 0;
   background: ${colors.background};
@@ -526,25 +534,6 @@ const NotionFooter = styled.div`
 const NotionDate = styled.span`
   font-size: 0.8rem;
   color: ${colors.textTertiary};
-`;
-
-const NotionButton = styled(Link)`
-  display: block;
-  text-align: center;
-  padding: 12px 30px;
-  background: ${colors.primary};
-  color: ${colors.white};
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  max-width: 200px;
-  margin: 0 auto;
-
-  &:hover {
-    background: ${colors.primaryDark};
-    transform: translateY(-2px);
-  }
 `;
 
 export default Home;

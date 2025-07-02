@@ -181,16 +181,17 @@ const ProjectLink = styled.a`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: ${colors.primary};
-  color: ${colors.white};
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 26px;
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
 
+  color: ${colors.gray600};
+  border: 2px solid ${colors.gray300};
+
   &:hover {
-    background: ${colors.primaryDark};
+    background: ${colors.gray200};
     transform: translateY(-2px);
   }
 `;

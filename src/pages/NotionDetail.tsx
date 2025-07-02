@@ -155,15 +155,17 @@ const Wrapper = styled.div`
 const BackButton = styled.button`
   background: ${colors.gray50};
   border: 1px solid ${colors.gray300};
-  border-radius: 6px;
+  border-radius: 25px;
   padding: 0.5rem 1rem;
   margin-bottom: 2rem;
   cursor: pointer;
   font-size: 0.9rem;
+  transition: all 0.3s ease;
   color: ${colors.gray600};
 
   &:hover {
     background: ${colors.gray200};
+    transform: translateY(-2px);
   }
 `;
 

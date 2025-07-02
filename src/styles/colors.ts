@@ -1,6 +1,4 @@
-// 기본 색상 팔레트
 export const colors = {
-  // 그레이 스케일
   white: "#ffffff",
   gray50: "#f8f9fa",
   gray100: "#f1f3f4",
@@ -14,9 +12,9 @@ export const colors = {
   gray900: "#333333",
 
   // 브랜드 색상
-  primary: "#007bff",
-  primaryDark: "#0056b3",
-  primaryLight: "#cce7ff",
+  primary: "#6c757d",
+  primaryDark: "#495057",
+  primaryLight: "#e9ecef",
 
   // 상태 색상
   success: "#28a745",
@@ -40,6 +38,12 @@ export const colors = {
   textSecondary: "#666666",
   textTertiary: "#888888",
   textMuted: "#5f6368",
+
+  // 버튼 색상
+  buttonBackground: "rgba(108, 117, 125, 0.1)",
+  buttonBorder: "rgba(108, 117, 125, 0.3)",
+  buttonHoverBackground: "rgba(108, 117, 125, 0.2)",
+  buttonHoverBorder: "rgba(108, 117, 125, 0.5)",
 } as const;
 
 // Notion 태그 색상 시스템
