@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { fetchNotionItems } from "../apis/getNotionPosts";
+import {
+  fetchNotionItems,
+  fetchNotionPageContent,
+} from "../apis/getNotionPosts";
 
 type NotionTag = {
   name: string;
@@ -18,6 +21,7 @@ type NotionPost = {
   tags: NotionTag[];
   status?: string;
   organization: NotionTag[];
+  content?: string;
 };
 
 type NotionMultiSelect = {
@@ -97,40 +101,66 @@ const NotionPage: React.FC = () => {
       try {
         const data = await fetchNotionItems();
 
-        const mapped = (data as NotionApiResponse).results.map(
-          (page: NotionPageResponse) => {
-            const title =
-              page.properties["이름"]?.title?.[0]?.plain_text || "Untitled";
-            const tags =
-              page.properties["태그"]?.multi_select?.map(
-                (tag: NotionMultiSelect) => ({
-                  name: tag.name,
-                  color: tag.color,
-                })
-              ) || [];
-            const organization =
-              page.properties["소속"]?.multi_select?.map(
-                (org: NotionMultiSelect) => ({
-                  name: org.name,
-                  color: org.color,
-                })
-              ) || [];
-            const status =
-              page.properties["블로그 개시"]?.status?.name || "미완료";
-            const icon = page.icon?.emoji || "📝";
+        const mapped = await Promise.all(
+          (data as NotionApiResponse).results.map(
+            async (page: NotionPageResponse) => {
+              const title =
+                page.properties["이름"]?.title?.[0]?.plain_text || "Untitled";
+              const tags =
+                page.properties["태그"]?.multi_select?.map(
+                  (tag: NotionMultiSelect) => ({
+                    name: tag.name,
+                    color: tag.color,
+                  })
+                ) || [];
+              const organization =
+                page.properties["소속"]?.multi_select?.map(
+                  (org: NotionMultiSelect) => ({
+                    name: org.name,
+                    color: org.color,
+                  })
+                ) || [];
+              const status =
+                page.properties["블로그 개시"]?.status?.name || "미완료";
+              const icon = page.icon?.emoji || "📝";
 
-            return {
-              id: page.id,
-              title,
-              url: page.url,
-              icon,
-              created_time: page.created_time,
-              last_edited_time: page.last_edited_time,
-              tags,
-              status,
-              organization,
-            };
-          }
+              // 페이지 콘텐츠 가져오기
+              let content = "";
+              try {
+                const blocks = await fetchNotionPageContent(page.id);
+                content = blocks.results
+                  .map((block: any) => {
+                    if (
+                      block.type === "paragraph" &&
+                      block.paragraph?.rich_text
+                    ) {
+                      return block.paragraph.rich_text
+                        .map((text: any) => text.plain_text)
+                        .join("");
+                    }
+                    return "";
+                  })
+                  .filter((text) => text.length > 0)
+                  .join(" ")
+                  .substring(0, 150);
+              } catch (error) {
+                console.warn(`페이지 ${page.id} 콘텐츠 로드 실패:`, error);
+              }
+
+              return {
+                id: page.id,
+                title,
+                url: page.url,
+                icon,
+                created_time: page.created_time,
+                last_edited_time: page.last_edited_time,
+                tags,
+                status,
+                organization,
+                content,
+              };
+            }
+          )
         );
 
         setPosts(mapped);
@@ -198,6 +228,10 @@ const NotionPage: React.FC = () => {
                         {post.status}
                       </StatusBadge>
                     </PostHeader>
+
+                    {post.content && (
+                      <PostPreview>{post.content}...</PostPreview>
+                    )}
 
                     <PostMeta>
                       <MetaItem>
@@ -353,6 +387,17 @@ const StatusBadge = styled.span<{ status?: string }>`
   font-weight: 500;
   background: ${({ status }) => (status === "완료" ? "#d4edda" : "#fff3cd")};
   color: ${({ status }) => (status === "완료" ? "#155724" : "#856404")};
+`;
+
+const PostPreview = styled.p`
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const PostMeta = styled.div`
