@@ -1,26 +1,18 @@
 export const handler = async (event) => {
-  // 0) 공통 CORS 헤더
+  /* ---------- 공통 CORS ---------- */
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type,Authorization,Notion-Version",
   };
 
-  // OPTIONS 프리플라이트는 바로 204 응답
-  const { requestContext } = event;
-  const method = requestContext.http.method;
-
+  /* ---------- OPTIONS 프리플라이트 ---------- */
+  const method = event.requestContext.http.method;
   if (method === "OPTIONS") {
-    return {
-      statusCode: 204,
-      headers: corsHeaders,
-      body: "",
-    };
+    return { statusCode: 204, headers: corsHeaders, body: "" };
   }
 
-  /* ---------------------------------------------------------- */
-
-  // 1) 요청 정보 해석
+  /* ---------- Notion API 호출 준비 ---------- */
   const {
     rawPath,
     rawQueryString = "",
@@ -29,13 +21,11 @@ export const handler = async (event) => {
     isBase64Encoded,
   } = event;
 
-  // 2) Notion API URL 구성
   const notionURL =
-    `https://api.notion.com/v1` +
+    "https://api.notion.com/v1" +
     rawPath.replace("/api/notion", "") +
     (rawQueryString ? `?${rawQueryString}` : "");
 
-  // 3) 바디 전달 여부 결정
   const upstreamBody =
     ["GET", "HEAD"].includes(method) || !body
       ? undefined
@@ -43,7 +33,7 @@ export const handler = async (event) => {
         ? Buffer.from(body, "base64")
         : body;
 
-  // 4) Notion API 호출
+  /* ---------- Notion API 호출 ---------- */
   const upstream = await fetch(notionURL, {
     method,
     headers: {
@@ -54,15 +44,24 @@ export const handler = async (event) => {
     body: upstreamBody,
   });
 
-  const text = await upstream.text();
+  const text = await upstream.text(); // 여기서 gzip 자동 해제됨
 
-  // 5) 결과 반환 + CORS
+  /* ---------- 헤더 정리: gzip/transfer-encoding 제거 ---------- */
+  const passthrough = Object.fromEntries(
+    [...upstream.headers].filter(
+      ([key]) =>
+        key.toLowerCase() !== "content-encoding" &&
+        key.toLowerCase() !== "transfer-encoding"
+    )
+  );
+
+  /* ---------- 최종 응답 ---------- */
   return {
     statusCode: upstream.status,
     headers: {
       ...corsHeaders,
       "Content-Type": "application/json",
-      ...Object.fromEntries(upstream.headers), // Notion 응답 헤더 이어붙이기
+      ...passthrough,
     },
     body: text,
   };
