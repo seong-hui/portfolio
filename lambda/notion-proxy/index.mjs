@@ -61,6 +61,7 @@ export const handler = async (event) => {
     statusCode: upstream.status,
     headers: {
       ...corsHeaders,
+      "Content-Type": "application/json",
       ...Object.fromEntries(upstream.headers), // Notion 응답 헤더 이어붙이기
     },
     body: text,
