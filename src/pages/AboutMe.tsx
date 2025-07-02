@@ -35,9 +35,11 @@ const AboutMe: React.FC = () => {
           <ExperienceItem>
             <ExperienceHeader>
               <ExperienceTitle>리콘랩스</ExperienceTitle>
-              <ExperiencePeriod>2025.07 - 진행중</ExperiencePeriod>
+              <ExperiencePeriod>2025.07 - 재직중</ExperiencePeriod>
             </ExperienceHeader>
-            <ExperienceDescription>Software Engineer</ExperienceDescription>
+            <ExperienceDescription>
+              Software Engineer Intern
+            </ExperienceDescription>
           </ExperienceItem>
         </Section>
 

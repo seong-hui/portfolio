@@ -71,34 +71,48 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
           >
             <SectionTitle>About Me</SectionTitle>
-            <AboutContent>
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                안녕하세요! 저는 사용자 중심의 웹 애플리케이션을 개발하는 것을
-                좋아하는 개발자입니다.
-              </motion.p>
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                viewport={{ once: true }}
-              >
-                새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며,
-                깔끔하고 효율적인 코드를 작성하기 위해 노력합니다.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <AboutButton to="/about">더 자세히 보기</AboutButton>
-              </motion.div>
-            </AboutContent>
+            <AboutContentWrapper>
+              <AboutImageWrapper>
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <AboutImage>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="Developer" />
+                  </AboutImage>
+                </motion.div>
+              </AboutImageWrapper>
+              <AboutContent>
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  안녕하세요! 저는 사용자 중심의 웹 애플리케이션을 개발하는 것을
+                  좋아하는 개발자입니다.
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며,
+                  깔끔하고 효율적인 코드를 작성하기 위해 노력합니다.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <AboutButton to="/about">더 자세히 보기</AboutButton>
+                </motion.div>
+              </AboutContent>
+            </AboutContentWrapper>
           </motion.div>
         </Container>
       </AboutSection>
@@ -112,24 +126,38 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
           >
             <SectionTitle>Projects</SectionTitle>
-            <ProjectContent>
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                다양한 기술을 활용하여 제작한 프로젝트들을 소개합니다.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                viewport={{ once: true }}
-              >
-                <ProjectButton to="/projects">프로젝트 보기</ProjectButton>
-              </motion.div>
-            </ProjectContent>
+            <ProjectContentWrapper>
+              <ProjectContent>
+                <motion.p
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  다양한 기술을 활용하여 제작한 프로젝트들을 소개합니다.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  <ProjectButton to="/projects">프로젝트 보기</ProjectButton>
+                </motion.div>
+              </ProjectContent>
+              <ProjectImageWrapper>
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  <ProjectImage>
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop" alt="Projects" />
+                  </ProjectImage>
+                </motion.div>
+              </ProjectImageWrapper>
+            </ProjectContentWrapper>
           </motion.div>
         </Container>
       </ProjectSection>
@@ -236,16 +264,80 @@ const SectionTitle = styled.h2`
   color: #333;
 `;
 
-const AboutContent = styled.div`
-  max-width: 800px;
+const AboutContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1000px;
   margin: 0 auto;
-  text-align: center;
+  align-items: center;
 
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+`;
+
+const AboutImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const AboutImage = styled.div`
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const AboutContent = styled.div`
   p {
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
     color: #666;
+  }
+`;
+
+const ProjectContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+`;
+
+const ProjectImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const ProjectImage = styled.div`
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  
+  img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
   }
 `;
 

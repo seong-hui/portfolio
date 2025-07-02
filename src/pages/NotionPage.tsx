@@ -67,11 +67,29 @@ type NotionApiResponse = {
 
 const NotionPage: React.FC = () => {
   const [posts, setPosts] = useState<NotionPost[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<NotionPost[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("전체");
+  const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoad] = useState(true);
   const navigate = useNavigate();
 
   const handlePostClick = (postId: string) => {
     navigate(`/notion/${postId}`);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    if (category === "전체") {
+      setFilteredPosts(posts);
+    } else if (category === "기타") {
+      setFilteredPosts(posts.filter((post) => post.organization.length === 0));
+    } else {
+      setFilteredPosts(
+        posts.filter((post) =>
+          post.organization.some((org) => org.name === category)
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -116,6 +134,23 @@ const NotionPage: React.FC = () => {
         );
 
         setPosts(mapped);
+        setFilteredPosts(mapped);
+
+        // 카테고리 추출
+        const orgSet = new Set<string>();
+        mapped.forEach((post) => {
+          post.organization.forEach((org) => orgSet.add(org.name));
+        });
+        const orgCategories = Array.from(orgSet).sort();
+
+        // 기타 카테고리 추가 (소속이 없는 경우)
+        const hasNoOrg = mapped.some((post) => post.organization.length === 0);
+        const allCategories = ["전체", ...orgCategories];
+        if (hasNoOrg) {
+          allCategories.push("기타");
+        }
+
+        setCategories(allCategories);
       } catch (e) {
         console.error("fetchNotionItems 오류:", e);
       } finally {
@@ -136,54 +171,73 @@ const NotionPage: React.FC = () => {
         {loading ? (
           <LoadingWrapper>Loading...</LoadingWrapper>
         ) : (
-          <PostGrid>
-            {posts.map((post) => (
-              <PostCard key={post.id} onClick={() => handlePostClick(post.id)}>
-                <PostContent>
-                  <PostHeader>
-                    <PostIcon>{post.icon}</PostIcon>
-                    <PostTitle>{post.title}</PostTitle>
-                    <StatusBadge status={post.status}>
-                      {post.status}
-                    </StatusBadge>
-                  </PostHeader>
+          <>
+            <CategoryTabs>
+              {categories.map((category) => (
+                <CategoryTab
+                  key={category}
+                  active={selectedCategory === category}
+                  onClick={() => handleCategoryChange(category)}
+                >
+                  {category}
+                </CategoryTab>
+              ))}
+            </CategoryTabs>
 
-                  <PostMeta>
-                    <MetaItem>
-                      작성:{" "}
-                      {new Date(post.created_time).toLocaleDateString("ko-KR")}
-                    </MetaItem>
-                    <MetaItem>
-                      수정:{" "}
-                      {new Date(post.last_edited_time).toLocaleDateString(
-                        "ko-KR"
-                      )}
-                    </MetaItem>
-                  </PostMeta>
+            <PostGrid>
+              {filteredPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  onClick={() => handlePostClick(post.id)}
+                >
+                  <PostContent>
+                    <PostHeader>
+                      <PostIcon>{post.icon}</PostIcon>
+                      <PostTitle>{post.title}</PostTitle>
+                      <StatusBadge status={post.status}>
+                        {post.status}
+                      </StatusBadge>
+                    </PostHeader>
 
-                  {post.organization.length > 0 && (
-                    <OrgList>
-                      {post.organization.map((org, index) => (
-                        <OrgTag key={index} color={org.color}>
-                          {org.name}
-                        </OrgTag>
-                      ))}
-                    </OrgList>
-                  )}
+                    <PostMeta>
+                      <MetaItem>
+                        작성:{" "}
+                        {new Date(post.created_time).toLocaleDateString(
+                          "ko-KR"
+                        )}
+                      </MetaItem>
+                      <MetaItem>
+                        수정:{" "}
+                        {new Date(post.last_edited_time).toLocaleDateString(
+                          "ko-KR"
+                        )}
+                      </MetaItem>
+                    </PostMeta>
 
-                  {post.tags.length > 0 && (
-                    <TagList>
-                      {post.tags.map((tag, index) => (
-                        <Tag key={index} color={tag.color}>
-                          {tag.name}
-                        </Tag>
-                      ))}
-                    </TagList>
-                  )}
-                </PostContent>
-              </PostCard>
-            ))}
-          </PostGrid>
+                    {post.organization.length > 0 && (
+                      <OrgList>
+                        {post.organization.map((org, index) => (
+                          <OrgTag key={index} color={org.color}>
+                            {org.name}
+                          </OrgTag>
+                        ))}
+                      </OrgList>
+                    )}
+
+                    {post.tags.length > 0 && (
+                      <TagList>
+                        {post.tags.map((tag, index) => (
+                          <Tag key={index} color={tag.color}>
+                            {tag.name}
+                          </Tag>
+                        ))}
+                      </TagList>
+                    )}
+                  </PostContent>
+                </PostCard>
+              ))}
+            </PostGrid>
+          </>
         )}
       </Container>
     </Wrapper>
@@ -213,7 +267,32 @@ const Description = styled.p`
   text-align: center;
   font-size: 1.2rem;
   color: #666;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
+`;
+
+const CategoryTabs = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+`;
+
+const CategoryTab = styled.button<{ active: boolean }>`
+  padding: 0.75rem 1.5rem;
+  border: 2px solid ${({ active }) => (active ? "#007bff" : "#dee2e6")};
+  background: ${({ active }) => (active ? "#007bff" : "white")};
+  color: ${({ active }) => (active ? "white" : "#666")};
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #007bff;
+    background: ${({ active }) => (active ? "#0056b3" : "#f8f9fa")};
+    color: ${({ active }) => (active ? "white" : "#007bff")};
+  }
 `;
 
 const LoadingWrapper = styled.div`
