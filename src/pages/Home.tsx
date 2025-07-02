@@ -104,7 +104,7 @@ const Home: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                창의적이고 효율적인 솔루션을 만드는 것을 좋아합니다~~~
+                창의적이고 효율적인 솔루션을 만드는 것을 좋아합니다~~
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
