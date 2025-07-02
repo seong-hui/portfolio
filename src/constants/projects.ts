@@ -27,8 +27,7 @@ export const PROJECTS: Project[] = [
   {
     id: "42cabi",
     title: "42Cabi",
-    image:
-      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=300&fit=crop",
+    image: "/src/assets/images/cabi.png",
     description:
       "42서울 1300여 명의 학생이 사용하는 사물함 대여 플랫폼입니다. 구조적 문제를 정의하고 정책 중심의 기능 개선을 통해 사용자 경험과 서비스 지표를 실질적으로 개선한 프로젝트입니다",
     note: "(실제 사이트는 42서울 학생 로그인이 필요합니다. 데모 사이트를 통해 로그인 없이 서비스를 보실 수 있습니다)",
@@ -69,8 +68,7 @@ export const PROJECTS: Project[] = [
   {
     id: "jeolloga",
     title: "절로가",
-    image:
-      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&h=300&fit=crop",
+    image: "/src/assets/images/jeolloga.png",
     description:
       "원하는 템플스테이를 가장 쉽게 찾을 수 있는 서비스입니다. 프론트엔드 리드로 참여하여 사용자 맞춤 검색 필터 기능을 구조적으로 설계하고 짧은 기간 내 협업 완성도를 높여 서비스의 핵심 기능을 안정적으로 구현하였습니다.",
     period: "2024년 12월 – 현재 (서비스 운영 중)",
@@ -126,8 +124,7 @@ export const PROJECTS: Project[] = [
   {
     id: "sopt-playground",
     title: "SOPT Makers - Playground",
-    image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=300&fit=crop",
+    image: "/src/assets/images/soptmakers.png",
     description:
       "Playground는 대학생 연합 IT 창업 동아리 SOPT의 모든 기수 회원들이 언제 어디서든 자유롭게 소통할 수 있도록 연결하는 플랫폼입니다. SOPT는 다양한 전공과 개성을 지닌 약 3000명의 회원들과 함께해왔으며 Playground는 이들이 자연스럽게 관계를 맺고 교류할 수 있도록 다양한 연결 방식을 고민하고 있습니다.",
     period: "2025년 2월 – 현재 (서비스 운영 중)",
@@ -167,8 +164,7 @@ export const PROJECTS: Project[] = [
   {
     id: "shellin",
     title: "Shellin",
-    image:
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=300&fit=crop",
+    image: "/src/assets/images/shellin.png",
     description:
       "해야 할 모든 일을 한곳에 정리하고 하루 일정을 유연하게 계획할 수 있도록 만든 일정 관리 서비스입니다. 실제 일상에서 느꼈던 일정 관리의 불편함을 해결하고자 기획에 참여하고 개발 중입니다.",
     period: "2024년 7월 – 현재 (서비스 운영 중)",

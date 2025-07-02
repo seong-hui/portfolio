@@ -36,8 +36,7 @@ export const PROJECT_DETAILS: ProjectDetailData[] = [
   {
     id: "42cabi",
     title: "42Cabi",
-    image:
-      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=400&fit=crop",
+    image: "/src/assets/images/cabi.png",
     links: [
       {
         href: "https://cabi.42seoul.io/home",
@@ -245,8 +244,7 @@ export const PROJECT_DETAILS: ProjectDetailData[] = [
   {
     id: "jeolloga",
     title: "절로가",
-    image:
-      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&h=400&fit=crop",
+    image: "/src/assets/images/jeolloga.png",
     links: [
       {
         href: "https://www.gototemplestay.com/",

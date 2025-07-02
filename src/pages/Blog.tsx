@@ -331,18 +331,20 @@ const VelogLink = styled.a`
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  background: ${colors.success};
-  color: ${colors.white};
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 25px;
   font-weight: 600;
   font-size: 1.1rem;
   transition: all 0.3s ease;
   max-width: 300px;
   margin: 0 auto;
 
+  color: ${colors.gray600};
+  border: 2px solid ${colors.gray300};
+  background: ${colors.gray50};
+
   &:hover {
-    background: ${colors.successDark};
+    background: ${colors.gray200};
     transform: translateY(-2px);
   }
 `;

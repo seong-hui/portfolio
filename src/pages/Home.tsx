@@ -98,7 +98,7 @@ const Home: React.FC = () => {
               >
                 <SocialButtons>
                   <SocialButton
-                    href="https://github.com"
+                    href="https://github.com/seong-hui"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -106,14 +106,14 @@ const Home: React.FC = () => {
                     GitHub
                   </SocialButton>
                   <SocialButton
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/seonghui-moon-86499934b/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <FaLinkedin size={20} />
                     LinkedIn
                   </SocialButton>
-                  <SocialButton href="mailto:your-email@example.com">
+                  <SocialButton href="mailto:msh9980@naver.com">
                     <FaEnvelope size={20} />
                     Email
                   </SocialButton>
@@ -282,7 +282,11 @@ const HomeSection = styled.section`
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    135deg,
+    rgb(102, 113, 234) 0%,
+    rgb(159, 188, 202) 100%
+  );
   color: white;
 `;
 
