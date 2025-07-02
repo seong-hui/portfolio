@@ -21,7 +21,6 @@ jobs:
 
       - name: Create .env.production
         run: |
-          echo "VITE_NOTION_TOKEN=${{ secrets.VITE_NOTION_TOKEN }}"          >> .env.production
           echo "VITE_NOTION_DATABASE_ID=${{ secrets.VITE_NOTION_DATABASE_ID }}" >> .env.production
 
       - name: Build Vite project
@@ -42,3 +41,14 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.DISTRIBUTION_ID }} \
             --paths "/*"
+
+      - name: Zip Lambda function
+        run: |
+          cd lambda/notion-proxy
+          zip -r ../../notion-proxy.zip .
+
+      - name: Deploy Lambda function
+        run: |
+          aws lambda update-function-code \
+            --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
+            --zip-file fileb://notion-proxy.zip
