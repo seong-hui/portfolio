@@ -21,7 +21,6 @@ jobs:
 
       - name: Create .env.production
         run: |
-          echo "VITE_NOTION_API=https://api.notion.com/v1"    >> .env.production
           echo "VITE_NOTION_TOKEN=${{ secrets.VITE_NOTION_TOKEN }}"          >> .env.production
           echo "VITE_NOTION_DATABASE_ID=${{ secrets.VITE_NOTION_DATABASE_ID }}" >> .env.production
 
