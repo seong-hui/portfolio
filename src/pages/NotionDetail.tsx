@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { fetchNotionPageContent } from "../apis/getNotionPosts";
 import { colors } from "../styles/colors";
+import { Spinner } from "../components/Spinner";
 
 type NotionBlock = {
   id: string;
@@ -131,10 +132,9 @@ const NotionDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <Wrapper>
-        <BackButton onClick={() => navigate(-1)}>← 뒤로가기</BackButton>
-        <LoadingWrapper>내용을 불러오는 중...</LoadingWrapper>
-      </Wrapper>
+      <LoadingWrapper>
+        <Spinner text="내용을 불러오는 중..." />
+      </LoadingWrapper>
     );
   }
 
@@ -152,6 +152,13 @@ const Wrapper = styled.div`
   padding: 1.5rem 16px;
 `;
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+`;
+
 const BackButton = styled.button`
   background: ${colors.gray50};
   border: 1px solid ${colors.gray300};
@@ -167,13 +174,6 @@ const BackButton = styled.button`
     background: ${colors.gray200};
     transform: translateY(-2px);
   }
-`;
-
-const LoadingWrapper = styled.div`
-  text-align: center;
-  padding: 4rem;
-  font-size: 1.2rem;
-  color: ${colors.textSecondary};
 `;
 
 const ContentWrapper = styled.div`

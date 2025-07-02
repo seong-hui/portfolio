@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { fetchNotionItems } from "../apis/getNotionPosts";
 import { getNotionColor, getTagColor } from "../styles/colors";
+import { Spinner } from "../components/Spinner";
 
 type NotionTag = {
   name: string;
@@ -167,7 +168,9 @@ const NotionPage: React.FC = () => {
         </Description>
 
         {isLoading ? (
-          <LoadingWrapper>Loading...</LoadingWrapper>
+          <LoadingWrapper>
+            <Spinner text="게시글을 불러오는 중..." />
+          </LoadingWrapper>
         ) : (
           <>
             <CategoryTabs>
@@ -300,10 +303,10 @@ const CategoryTab = styled.button<{ active: boolean; color: string }>`
 `;
 
 const LoadingWrapper = styled.div`
-  text-align: center;
-  padding: 4rem;
-  font-size: 1.2rem;
-  color: #666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
 `;
 
 const PostGrid = styled.div`
