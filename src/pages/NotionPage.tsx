@@ -337,9 +337,9 @@ const LoadingWrapper = styled.div`
 `;
 
 const PostGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   margin-bottom: 4rem;
 `;
 
@@ -350,22 +350,26 @@ const PostCard = styled.article`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  width: 100%;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
 `;
 
 const PostContent = styled.div`
-  padding: 1.5rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 const PostHeader = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 0;
 `;
 
 const PostIcon = styled.span`
@@ -390,21 +394,25 @@ const StatusBadge = styled.span<{ status?: string }>`
 `;
 
 const PostPreview = styled.p`
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
-  line-height: 1.5;
-  margin-bottom: 1rem;
+  line-height: 1.6;
+  margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `;
 
 const PostMeta = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
+  gap: 1.5rem;
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 `;
 
 const MetaItem = styled.span`
@@ -417,7 +425,7 @@ const OrgList = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 0;
 `;
 
 const OrgTag = styled.span<{ color: string }>`
@@ -477,7 +485,7 @@ const TagList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin: 0;
 `;
 
 const Tag = styled.span<{ color: string }>`
