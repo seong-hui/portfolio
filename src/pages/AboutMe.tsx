@@ -23,15 +23,13 @@ const AboutMe: React.FC = () => {
 
         <Section>
           <SectionTitle>☑︎ Work Experience</SectionTitle>
-          
+
           <ExperienceItem>
             <ExperienceHeader>
               <ExperienceTitle>리콘랩스</ExperienceTitle>
               <ExperiencePeriod>2025.07 - 진행중</ExperiencePeriod>
             </ExperienceHeader>
-            <ExperienceDescription>
-              Software Engineer
-            </ExperienceDescription>
+            <ExperienceDescription>Software Engineer</ExperienceDescription>
           </ExperienceItem>
         </Section>
 
@@ -104,7 +102,7 @@ const AboutMe: React.FC = () => {
 
 const AboutMeSection = styled.section`
   min-height: 100vh;
-  padding: 120px 0 80px;
+  padding: 40px 0 80px;
   background: #f8f9fa;
 `;
 

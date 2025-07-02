@@ -152,7 +152,7 @@ const NotionDetail: React.FC = () => {
 
 const Wrapper = styled.div`
   max-width: 800px;
-  margin: 100px auto 0;
+  margin: 40px auto 0;
   padding: 2rem;
 `;
 

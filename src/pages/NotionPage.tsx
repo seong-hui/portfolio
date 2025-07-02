@@ -127,69 +127,98 @@ const NotionPage: React.FC = () => {
 
   return (
     <Wrapper>
-      <Title>Notion Posts</Title>
-      {loading ? (
-        <LoadingWrapper>Loading...</LoadingWrapper>
-      ) : (
-        <PostGrid>
-          {posts.map((post) => (
-            <PostCard key={post.id} onClick={() => handlePostClick(post.id)}>
-              <PostHeader>
-                <PostIcon>{post.icon}</PostIcon>
-                <PostTitle>{post.title}</PostTitle>
-                <StatusBadge status={post.status}>{post.status}</StatusBadge>
-              </PostHeader>
+      <Container>
+        <Title>Notion</Title>
+        <Description>
+          Notion에서 작성한 개발 관련 글과 생각들을 공유합니다.
+        </Description>
 
-              <PostMeta>
-                <MetaItem>
-                  작성:{" "}
-                  {new Date(post.created_time).toLocaleDateString("ko-KR")}
-                </MetaItem>
-                <MetaItem>
-                  수정:{" "}
-                  {new Date(post.last_edited_time).toLocaleDateString("ko-KR")}
-                </MetaItem>
-              </PostMeta>
+        {loading ? (
+          <LoadingWrapper>Loading...</LoadingWrapper>
+        ) : (
+          <PostGrid>
+            {posts.map((post) => (
+              <PostCard key={post.id} onClick={() => handlePostClick(post.id)}>
+                <PostContent>
+                  <PostHeader>
+                    <PostIcon>{post.icon}</PostIcon>
+                    <PostTitle>{post.title}</PostTitle>
+                    <StatusBadge status={post.status}>
+                      {post.status}
+                    </StatusBadge>
+                  </PostHeader>
 
-              {post.organization.length > 0 && (
-                <OrgList>
-                  {post.organization.map((org, index) => (
-                    <OrgTag key={index} color={org.color}>
-                      {org.name}
-                    </OrgTag>
-                  ))}
-                </OrgList>
-              )}
+                  <PostMeta>
+                    <MetaItem>
+                      작성:{" "}
+                      {new Date(post.created_time).toLocaleDateString("ko-KR")}
+                    </MetaItem>
+                    <MetaItem>
+                      수정:{" "}
+                      {new Date(post.last_edited_time).toLocaleDateString(
+                        "ko-KR"
+                      )}
+                    </MetaItem>
+                  </PostMeta>
 
-              {post.tags.length > 0 && (
-                <TagList>
-                  {post.tags.map((tag, index) => (
-                    <Tag key={index} color={tag.color}>
-                      {tag.name}
-                    </Tag>
-                  ))}
-                </TagList>
-              )}
-            </PostCard>
-          ))}
-        </PostGrid>
-      )}
+                  {post.organization.length > 0 && (
+                    <OrgList>
+                      {post.organization.map((org, index) => (
+                        <OrgTag key={index} color={org.color}>
+                          {org.name}
+                        </OrgTag>
+                      ))}
+                    </OrgList>
+                  )}
+
+                  {post.tags.length > 0 && (
+                    <TagList>
+                      {post.tags.map((tag, index) => (
+                        <Tag key={index} color={tag.color}>
+                          {tag.name}
+                        </Tag>
+                      ))}
+                    </TagList>
+                  )}
+                </PostContent>
+              </PostCard>
+            ))}
+          </PostGrid>
+        )}
+      </Container>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
+  min-height: 100vh;
+  padding: 40px 0 80px;
+  background: #f8f9fa;
+`;
+
+const Container = styled.div`
   max-width: 1200px;
-  margin: 100px auto 0;
-  padding: 2rem;
+  margin: 0 auto;
+  padding: 0 20px;
+`;
+
+const HeaderSection = styled.div`
+  text-align: center;
+  margin-bottom: 4rem;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  margin-bottom: 3rem;
+  font-size: 3rem;
+  margin-bottom: 1rem;
   color: #333;
-  font-size: 2.5rem;
-  font-weight: 700;
+`;
+
+const Description = styled.p`
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 4rem;
 `;
 
 const LoadingWrapper = styled.div`
@@ -203,12 +232,13 @@ const PostGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
+  margin-bottom: 4rem;
 `;
 
-const PostCard = styled.div`
+const PostCard = styled.article`
   background: white;
   border-radius: 12px;
-  padding: 1.5rem;
+  overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -217,6 +247,10 @@ const PostCard = styled.div`
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
+`;
+
+const PostContent = styled.div`
+  padding: 1.5rem;
 `;
 
 const PostHeader = styled.div`
