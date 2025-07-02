@@ -169,9 +169,9 @@ const AboutMeSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
 `;
 
 const Title = styled.h1`

@@ -146,9 +146,9 @@ const NotionDetail: React.FC = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 800px;
+  max-width: 820px;
   margin: 40px auto 0;
-  padding: 2rem;
+  padding: 1.5rem 16px;
 `;
 
 const BackButton = styled.button`
@@ -176,7 +176,7 @@ const LoadingWrapper = styled.div`
 const ContentWrapper = styled.div`
   background: white;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   line-height: 1.6;
 `;

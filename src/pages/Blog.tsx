@@ -100,7 +100,7 @@ const Blog: React.FC = () => {
     return (
       <BlogSection>
         <Container>
-          <Title>Blog</Title>
+          <Title>Velog</Title>
           <LoadingMessage>블로그 글을 불러오는 중...</LoadingMessage>
         </Container>
       </BlogSection>
@@ -111,7 +111,7 @@ const Blog: React.FC = () => {
     return (
       <BlogSection>
         <Container>
-          <Title>Blog</Title>
+          <Title>Velog</Title>
           <ErrorMessage>{error}</ErrorMessage>
         </Container>
       </BlogSection>
@@ -121,14 +121,19 @@ const Blog: React.FC = () => {
   return (
     <BlogSection>
       <Container>
-        <Title>Blog</Title>
+        <Title>Velog</Title>
         <Description>
           개발하면서 배운 것들과 경험을 기록하고 공유합니다.
         </Description>
 
         <PostGrid>
           {posts.map((post) => (
-            <PostCard key={post.id}>
+            <PostCard
+              key={post.id}
+              href={`https://velog.io/@seonghui/${post.url_slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {post.thumbnail && (
                 <PostThumbnail>
                   <img src={post.thumbnail} alt={post.title} />
@@ -161,14 +166,6 @@ const Blog: React.FC = () => {
                     ))}
                   </TagList>
                 )}
-
-                <PostLink
-                  href={`https://velog.io/@seonghui/${post.url_slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaExternalLinkAlt />글 읽기
-                </PostLink>
               </PostContent>
             </PostCard>
           ))}
@@ -194,9 +191,9 @@ const BlogSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
 `;
 
 const Title = styled.h1`
@@ -228,29 +225,34 @@ const ErrorMessage = styled.div`
 `;
 
 const PostGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   margin-bottom: 4rem;
 `;
 
-const PostCard = styled.article`
+const PostCard = styled.a`
   background: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  cursor: pointer;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
 `;
 
 const PostThumbnail = styled.div`
-  width: 100%;
-  height: 200px;
+  width: 200px;
+  height: 150px;
   overflow: hidden;
+  flex-shrink: 0;
 
   img {
     width: 100%;
@@ -260,7 +262,10 @@ const PostThumbnail = styled.div`
 `;
 
 const PostContent = styled.div`
-  padding: 1.5rem;
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 const PostTitle = styled.h2`
@@ -308,7 +313,6 @@ const TagList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
 `;
 
 const Tag = styled.span`
@@ -318,25 +322,6 @@ const Tag = styled.span`
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 500;
-`;
-
-const PostLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-  }
 `;
 
 const VelogLink = styled.a`

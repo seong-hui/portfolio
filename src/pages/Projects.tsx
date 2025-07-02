@@ -309,9 +309,9 @@ const ProjectsSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
 `;
 
 const Title = styled.h1`
@@ -324,7 +324,7 @@ const Title = styled.h1`
 const ProjectItem = styled.div`
   background: white;
   border-radius: 12px;
-  padding: 2.5rem;
+  padding: 2rem;
   margin-bottom: 3rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 `;

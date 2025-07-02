@@ -246,9 +246,9 @@ const Wrapper = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 16px;
 `;
 
 const Title = styled.h1`
@@ -320,7 +320,7 @@ const PostCard = styled.article`
 `;
 
 const PostContent = styled.div`
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
