@@ -119,15 +119,21 @@ const NotionPage: React.FC = () => {
   });
 
   const categories = useMemo(() => {
-    const orgSet = new Set<string>();
+    const orgMap = new Map<string, string>();
     posts.forEach((post) => {
-      post.organization.forEach((org) => orgSet.add(org.name));
+      post.organization.forEach((org) => orgMap.set(org.name, org.color));
     });
-    const orgCategories = Array.from(orgSet).sort();
+    const orgCategories = Array.from(orgMap.keys()).sort();
     const hasNoOrg = posts.some((post) => post.organization.length === 0);
-    const allCategories = ["전체", ...orgCategories];
+    const allCategories = [
+      { name: "전체", color: "gray" },
+      ...orgCategories.map((name) => ({
+        name,
+        color: orgMap.get(name) || "default",
+      })),
+    ];
     if (hasNoOrg) {
-      allCategories.push("기타");
+      allCategories.push({ name: "기타", color: "gray" });
     }
     return allCategories;
   }, [posts]);
@@ -167,11 +173,12 @@ const NotionPage: React.FC = () => {
             <CategoryTabs>
               {categories.map((category) => (
                 <CategoryTab
-                  key={category}
-                  active={selectedCategory === category}
-                  onClick={() => handleCategoryChange(category)}
+                  key={category.name}
+                  active={selectedCategory === category.name}
+                  color={category.color}
+                  onClick={() => handleCategoryChange(category.name)}
                 >
-                  {category}
+                  {category.name}
                 </CategoryTab>
               ))}
             </CategoryTabs>
@@ -274,20 +281,27 @@ const CategoryTabs = styled.div`
   flex-wrap: wrap;
 `;
 
-const CategoryTab = styled.button<{ active: boolean }>`
+const CategoryTab = styled.button<{ active: boolean; color: string }>`
   padding: 0.75rem 1.5rem;
-  border: 2px solid ${({ active }) => (active ? "#007bff" : "#dee2e6")};
-  background: ${({ active }) => (active ? "#007bff" : "white")};
-  color: ${({ active }) => (active ? "white" : "#666")};
+  border: 2px solid
+    ${({ active, color }) =>
+      active ? getNotionColor(color, "border") : "#dee2e6"};
+  background: ${({ active, color }) =>
+    active ? getNotionColor(color, "background") : "white"};
+  color: ${({ active, color }) =>
+    active ? getNotionColor(color, "text") : "#666"};
   border-radius: 25px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: #007bff;
-    background: ${({ active }) => (active ? "#0056b3" : "#f8f9fa")};
-    color: ${({ active }) => (active ? "white" : "#007bff")};
+    border-color: ${({ color }) => getNotionColor(color, "border")};
+    background: ${({ active, color }) =>
+      active
+        ? getNotionColor(color, "background")
+        : getNotionColor(color, "background")};
+    color: ${({ color }) => getNotionColor(color, "text")};
   }
 `;
 
