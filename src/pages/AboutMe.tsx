@@ -8,6 +8,7 @@ import {
   SiMongodb,
   SiMysql,
 } from "react-icons/si";
+import { colors } from "../styles/colors";
 
 const AboutMe: React.FC = () => {
   return (
@@ -165,7 +166,7 @@ const AboutMe: React.FC = () => {
 const AboutMeSection = styled.section`
   min-height: 100vh;
   padding: 40px 0 80px;
-  background: #f8f9fa;
+  background: ${colors.background};
 `;
 
 const Container = styled.div`
@@ -178,7 +179,7 @@ const Title = styled.h1`
   text-align: center;
   font-size: 3rem;
   margin-bottom: 3rem;
-  color: #333;
+  color: ${colors.textPrimary};
 `;
 
 const Content = styled.div`
@@ -190,7 +191,7 @@ const Content = styled.div`
     font-size: 1.2rem;
     line-height: 1.8;
     margin-bottom: 2rem;
-    color: #666;
+    color: ${colors.textSecondary};
   }
 `;
 
@@ -202,14 +203,14 @@ const Section = styled.div`
 const SectionTitle = styled.h2`
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #333;
+  color: ${colors.textPrimary};
   font-weight: 600;
 `;
 
 const ExperienceItem = styled.div`
   margin-bottom: 2.5rem;
   padding: 1.5rem;
-  background: white;
+  background: ${colors.surface};
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
@@ -230,19 +231,19 @@ const ExperienceHeader = styled.div`
 const ExperienceTitle = styled.h3`
   font-size: 1.3rem;
   font-weight: 600;
-  color: #333;
+  color: ${colors.textPrimary};
   margin: 0;
 `;
 
 const ExperiencePeriod = styled.span`
   font-size: 0.9rem;
-  color: #888;
+  color: ${colors.textTertiary};
   font-style: italic;
 `;
 
 const ExperienceDescription = styled.p`
   font-size: 1rem;
-  color: #666;
+  color: ${colors.textSecondary};
   margin: 0.5rem 0;
   font-weight: 500;
 `;
@@ -260,7 +261,7 @@ const SkillsContainer = styled.div`
 `;
 
 const SkillCategory = styled.div`
-  background: white;
+  background: ${colors.surface};
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -278,19 +279,19 @@ const SkillItem = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  background: #f8f9fa;
+  background: ${colors.gray50};
   border-radius: 8px;
   transition: all 0.3s ease;
 
   &:hover {
-    background: #e9ecef;
+    background: ${colors.gray200};
     transform: translateY(-2px);
   }
 
   span {
     font-size: 0.9rem;
     font-weight: 500;
-    color: #333;
+    color: ${colors.textPrimary};
   }
 `;
 

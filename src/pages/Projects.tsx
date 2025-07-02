@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import { colors } from "../styles/colors";
 
 const Projects: React.FC = () => {
   return (
@@ -305,7 +306,7 @@ const Projects: React.FC = () => {
 const ProjectsSection = styled.section`
   min-height: 100vh;
   padding: 40px 0 80px;
-  background: #f8f9fa;
+  background: ${colors.background};
 `;
 
 const Container = styled.div`
@@ -318,11 +319,11 @@ const Title = styled.h1`
   text-align: center;
   font-size: 3rem;
   margin-bottom: 4rem;
-  color: #333;
+  color: ${colors.textPrimary};
 `;
 
 const ProjectItem = styled.div`
-  background: white;
+  background: ${colors.surface};
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 3rem;
@@ -343,14 +344,14 @@ const ProjectHeader = styled.div`
 
 const ProjectTitle = styled(Link)`
   font-size: 2rem;
-  color: #333;
+  color: ${colors.textPrimary};
   margin: 0;
   text-decoration: none;
   cursor: pointer;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #007bff;
+    color: ${colors.primary};
   }
 `;
 
@@ -365,8 +366,8 @@ const ProjectLink = styled.a`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: #007bff;
-  color: white;
+  background: ${colors.primary};
+  color: ${colors.white};
   text-decoration: none;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -374,7 +375,7 @@ const ProjectLink = styled.a`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #0056b3;
+    background: ${colors.primaryDark};
     transform: translateY(-2px);
   }
 `;
@@ -382,7 +383,7 @@ const ProjectLink = styled.a`
 const ProjectDescription = styled.p`
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #555;
+  color: ${colors.textSecondary};
   margin-bottom: 1rem;
 `;
 
@@ -394,7 +395,7 @@ const ProjectNote = styled.p`
 `;
 
 const ProjectInfo = styled.div`
-  background: #f8f9fa;
+  background: ${colors.gray50};
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 2rem;
@@ -403,14 +404,14 @@ const ProjectInfo = styled.div`
 const InfoItem = styled.div`
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
-  color: #666;
+  color: ${colors.textSecondary};
 
   &:last-child {
     margin-bottom: 0;
   }
 
   strong {
-    color: #333;
+    color: ${colors.textPrimary};
   }
 `;
 
@@ -427,7 +428,7 @@ const AchievementItem = styled.div`
 
   strong {
     display: block;
-    color: #333;
+    color: ${colors.textPrimary};
     margin-bottom: 0.5rem;
     font-size: 1rem;
   }
@@ -439,7 +440,7 @@ const AchievementItem = styled.div`
     li {
       margin-bottom: 0.5rem;
       line-height: 1.6;
-      color: #666;
+      color: ${colors.textSecondary};
 
       &:last-child {
         margin-bottom: 0;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { fetchNotionItems } from "../apis/getNotionPosts";
+import { getNotionColor, getTagColor } from "../styles/colors";
 
 type NotionTag = {
   name: string;
@@ -324,6 +325,7 @@ const PostContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
 `;
 
 const PostHeader = styled.div`
@@ -382,6 +384,9 @@ const MetaItem = styled.span`
 `;
 
 const OrgList = styled.div`
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -395,51 +400,9 @@ const OrgTag = styled.span<{ color: string }>`
   font-size: 0.8rem;
   font-weight: 500;
   border: 1px solid;
-  background: ${({ color }) => {
-    const colorMap: { [key: string]: string } = {
-      default: "#f8f9fa",
-      gray: "#f8f9fa",
-      brown: "#fdf6e3",
-      orange: "#fff4e6",
-      yellow: "#fffbf0",
-      green: "#f0f9f4",
-      blue: "#f0f8ff",
-      purple: "#f8f4ff",
-      pink: "#fdf2f8",
-      red: "#fef2f2",
-    };
-    return colorMap[color] || colorMap.default;
-  }};
-  border-color: ${({ color }) => {
-    const borderColorMap: { [key: string]: string } = {
-      default: "#dee2e6",
-      gray: "#adb5bd",
-      brown: "#d4a574",
-      orange: "#fd7e14",
-      yellow: "#ffc107",
-      green: "#28a745",
-      blue: "#007bff",
-      purple: "#6f42c1",
-      pink: "#e83e8c",
-      red: "#dc3545",
-    };
-    return borderColorMap[color] || borderColorMap.default;
-  }};
-  color: ${({ color }) => {
-    const textColorMap: { [key: string]: string } = {
-      default: "#495057",
-      gray: "#495057",
-      brown: "#8b4513",
-      orange: "#d2691e",
-      yellow: "#b8860b",
-      green: "#155724",
-      blue: "#004085",
-      purple: "#6f42c1",
-      pink: "#721c24",
-      red: "#721c24",
-    };
-    return textColorMap[color] || textColorMap.default;
-  }};
+  background: ${({ color }) => getNotionColor(color, "background")};
+  border-color: ${({ color }) => getNotionColor(color, "border")};
+  color: ${({ color }) => getNotionColor(color, "text")};
 `;
 
 const TagList = styled.div`
@@ -454,36 +417,8 @@ const Tag = styled.span<{ color: string }>`
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 500;
-  background: ${({ color }) => {
-    const colorMap: { [key: string]: string } = {
-      default: "#f1f3f4",
-      gray: "#e9ecef",
-      brown: "#f4e4bc",
-      orange: "#fde2cc",
-      yellow: "#fff2cd",
-      green: "#d4edda",
-      blue: "#cce7ff",
-      purple: "#e2d9f3",
-      pink: "#f8d7da",
-      red: "#f5c6cb",
-    };
-    return colorMap[color] || colorMap.default;
-  }};
-  color: ${({ color }) => {
-    const textColorMap: { [key: string]: string } = {
-      default: "#5f6368",
-      gray: "#495057",
-      brown: "#8b4513",
-      orange: "#d2691e",
-      yellow: "#b8860b",
-      green: "#155724",
-      blue: "#004085",
-      purple: "#6f42c1",
-      pink: "#721c24",
-      red: "#721c24",
-    };
-    return textColorMap[color] || textColorMap.default;
-  }};
+  background: ${({ color }) => getTagColor(color, "background")};
+  color: ${({ color }) => getTagColor(color, "text")};
 `;
 
 export default NotionPage;

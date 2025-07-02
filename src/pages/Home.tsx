@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { colors } from "../styles/colors";
 
 const Home: React.FC = () => {
   return (
@@ -80,7 +81,10 @@ const Home: React.FC = () => {
                   viewport={{ once: true }}
                 >
                   <AboutImage>
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="Developer" />
+                    <img
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+                      alt="Developer"
+                    />
                   </AboutImage>
                 </motion.div>
               </AboutImageWrapper>
@@ -153,7 +157,10 @@ const Home: React.FC = () => {
                   viewport={{ once: true }}
                 >
                   <ProjectImage>
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop" alt="Projects" />
+                    <img
+                      src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop"
+                      alt="Projects"
+                    />
                   </ProjectImage>
                 </motion.div>
               </ProjectImageWrapper>
@@ -215,12 +222,12 @@ const SocialButtons = styled.div`
 
 const AboutSection = styled.section`
   padding: 80px 0;
-  background: #f8f9fa;
+  background: ${colors.background};
 `;
 
 const ProjectSection = styled.section`
   padding: 80px 0;
-  background: #fff;
+  background: ${colors.surface};
 `;
 
 const ProjectContent = styled.div`
@@ -232,7 +239,7 @@ const ProjectContent = styled.div`
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 2rem;
-    color: #666;
+    color: ${colors.textSecondary};
   }
 `;
 
@@ -261,7 +268,7 @@ const SectionTitle = styled.h2`
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 3rem;
-  color: #333;
+  color: ${colors.textPrimary};
 `;
 
 const AboutContentWrapper = styled.div`
@@ -290,7 +297,7 @@ const AboutImage = styled.div`
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -303,7 +310,7 @@ const AboutContent = styled.div`
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
-    color: #666;
+    color: ${colors.textSecondary};
   }
 `;
 
@@ -333,7 +340,7 @@ const ProjectImage = styled.div`
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  
+
   img {
     width: 100%;
     height: 250px;
@@ -348,11 +355,11 @@ const ProjectButton = styled(Link)`
   font-weight: 600;
   transition: all 0.3s ease;
   display: inline-block;
-  background: #007bff;
-  color: white;
+  background: ${colors.primary};
+  color: ${colors.white};
 
   &:hover {
-    background: #0056b3;
+    background: ${colors.primaryDark};
     transform: translateY(-2px);
   }
 `;
@@ -361,15 +368,15 @@ const AboutButton = styled(Link)`
   display: inline-block;
   margin-top: 1rem;
   padding: 12px 30px;
-  background: #007bff;
-  color: white;
+  background: ${colors.primary};
+  color: ${colors.white};
   text-decoration: none;
   border-radius: 5px;
   font-weight: 600;
   transition: all 0.3s ease;
 
   &:hover {
-    background: #0056b3;
+    background: ${colors.primaryDark};
     transform: translateY(-2px);
   }
 `;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { FaExternalLinkAlt, FaCalendarAlt, FaEye } from "react-icons/fa";
+import { colors } from "../styles/colors";
 
 interface VelogPost {
   id: string;
@@ -187,7 +188,7 @@ const Blog: React.FC = () => {
 const BlogSection = styled.section`
   min-height: 100vh;
   padding: 40px 0 80px;
-  background: #f8f9fa;
+  background: ${colors.background};
 `;
 
 const Container = styled.div`
@@ -200,27 +201,27 @@ const Title = styled.h1`
   text-align: center;
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: ${colors.textPrimary};
 `;
 
 const Description = styled.p`
   text-align: center;
   font-size: 1.2rem;
-  color: #666;
+  color: ${colors.textSecondary};
   margin-bottom: 4rem;
 `;
 
 const LoadingMessage = styled.div`
   text-align: center;
   font-size: 1.2rem;
-  color: #666;
+  color: ${colors.textSecondary};
   padding: 4rem 0;
 `;
 
 const ErrorMessage = styled.div`
   text-align: center;
   font-size: 1.2rem;
-  color: #dc3545;
+  color: ${colors.danger};
   padding: 4rem 0;
 `;
 
@@ -232,7 +233,7 @@ const PostGrid = styled.div`
 `;
 
 const PostCard = styled.a`
-  background: white;
+  background: ${colors.surface};
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -271,7 +272,7 @@ const PostContent = styled.div`
 const PostTitle = styled.h2`
   font-size: 1.3rem;
   font-weight: 600;
-  color: #333;
+  color: ${colors.textPrimary};
   margin-bottom: 0.75rem;
   line-height: 1.4;
   display: -webkit-box;
@@ -282,7 +283,7 @@ const PostTitle = styled.h2`
 
 const PostDescription = styled.p`
   font-size: 0.95rem;
-  color: #666;
+  color: ${colors.textSecondary};
   line-height: 1.6;
   margin-bottom: 1rem;
   display: -webkit-box;
@@ -302,7 +303,7 @@ const MetaItem = styled.div`
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
-  color: #888;
+  color: ${colors.textTertiary};
 
   svg {
     font-size: 0.8rem;
@@ -316,8 +317,8 @@ const TagList = styled.div`
 `;
 
 const Tag = styled.span`
-  background: #e9ecef;
-  color: #495057;
+  background: ${colors.gray200};
+  color: ${colors.gray600};
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -330,8 +331,8 @@ const VelogLink = styled.a`
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  background: #20c997;
-  color: white;
+  background: ${colors.success};
+  color: ${colors.white};
   text-decoration: none;
   border-radius: 8px;
   font-weight: 600;
@@ -341,7 +342,7 @@ const VelogLink = styled.a`
   margin: 0 auto;
 
   &:hover {
-    background: #17a085;
+    background: ${colors.successDark};
     transform: translateY(-2px);
   }
 `;
