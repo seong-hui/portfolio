@@ -125,7 +125,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "sopt-playground",
-    title: "SOPT Makers - Playground 팀",
+    title: "SOPT Makers - Playground",
     image:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=300&fit=crop",
     description:

@@ -209,12 +209,6 @@ const NotionPage: React.FC = () => {
                           "ko-KR"
                         )}
                       </MetaItem>
-                      <MetaItem>
-                        수정:{" "}
-                        {new Date(post.last_edited_time).toLocaleDateString(
-                          "ko-KR"
-                        )}
-                      </MetaItem>
                     </PostMeta>
 
                     {post.organization.length > 0 && (
