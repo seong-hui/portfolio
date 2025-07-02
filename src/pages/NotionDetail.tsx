@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { fetchNotionPageContent } from "../apis/getNotionPosts";
 
@@ -57,25 +58,18 @@ type NotionContentResponse = {
 const NotionDetail: React.FC = () => {
   const { pageId } = useParams<{ pageId: string }>();
   const navigate = useNavigate();
-  const [content, setContent] = useState<NotionBlock[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadContent = async () => {
-      if (!pageId) return;
+  const { data, isLoading: loading } = useQuery({
+    queryKey: ["notion-detail", pageId],
+    queryFn: async () => {
+      if (!pageId) throw new Error("Page ID not found");
+      const data = await fetchNotionPageContent(pageId);
+      return (data as NotionContentResponse).results;
+    },
+    enabled: !!pageId,
+  });
 
-      try {
-        const data = await fetchNotionPageContent(pageId);
-        setContent((data as NotionContentResponse).results);
-      } catch (error) {
-        console.error("페이지 내용 로드 실패:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadContent();
-  }, [pageId]);
+  const content = data || [];
 
   const renderBlock = (block: NotionBlock) => {
     const getText = (richText: Array<{ plain_text: string }>) =>

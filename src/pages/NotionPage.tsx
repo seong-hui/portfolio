@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
-import {
-  fetchNotionItems,
-  fetchNotionPageContent,
-} from "../apis/getNotionPosts";
+import { fetchNotionItems } from "../apis/getNotionPosts";
 
 type NotionTag = {
   name: string;
@@ -54,6 +52,9 @@ type NotionPageProperties = {
   "블로그 개시": {
     status: NotionStatus;
   };
+  내용: {
+    rich_text: { plain_text: string }[];
+  };
 };
 
 type NotionPageResponse = {
@@ -69,13 +70,78 @@ type NotionApiResponse = {
   results: NotionPageResponse[];
 };
 
+const fetchNotionBasicData = async (): Promise<NotionPost[]> => {
+  const data = await fetchNotionItems();
+
+  return (data as NotionApiResponse).results.map((page: NotionPageResponse) => {
+    const title = page.properties["이름"]?.title?.[0]?.plain_text || "Untitled";
+    const tags =
+      page.properties["태그"]?.multi_select?.map((tag: NotionMultiSelect) => ({
+        name: tag.name,
+        color: tag.color,
+      })) || [];
+    const organization =
+      page.properties["소속"]?.multi_select?.map((org: NotionMultiSelect) => ({
+        name: org.name,
+        color: org.color,
+      })) || [];
+    const status = page.properties["블로그 개시"]?.status?.name || "미완료";
+    const icon = page.icon?.emoji || "📝";
+    const content =
+      page.properties["내용"]?.rich_text
+        ?.map((text) => text.plain_text)
+        .join("")
+        .substring(0, 150) || "";
+
+    return {
+      id: page.id,
+      title,
+      url: page.url,
+      icon,
+      created_time: page.created_time,
+      last_edited_time: page.last_edited_time,
+      tags,
+      status,
+      organization,
+      content,
+    };
+  });
+};
+
 const NotionPage: React.FC = () => {
-  const [posts, setPosts] = useState<NotionPost[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<NotionPost[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("전체");
-  const [categories, setCategories] = useState<string[]>([]);
-  const [loading, setLoad] = useState(true);
   const navigate = useNavigate();
+
+  const { data: posts = [], isLoading } = useQuery({
+    queryKey: ["notion-posts"],
+    queryFn: fetchNotionBasicData,
+  });
+
+  const categories = useMemo(() => {
+    const orgSet = new Set<string>();
+    posts.forEach((post) => {
+      post.organization.forEach((org) => orgSet.add(org.name));
+    });
+    const orgCategories = Array.from(orgSet).sort();
+    const hasNoOrg = posts.some((post) => post.organization.length === 0);
+    const allCategories = ["전체", ...orgCategories];
+    if (hasNoOrg) {
+      allCategories.push("기타");
+    }
+    return allCategories;
+  }, [posts]);
+
+  const filteredPosts = useMemo(() => {
+    if (selectedCategory === "전체") {
+      return posts;
+    } else if (selectedCategory === "기타") {
+      return posts.filter((post) => post.organization.length === 0);
+    } else {
+      return posts.filter((post) =>
+        post.organization.some((org) => org.name === selectedCategory)
+      );
+    }
+  }, [posts, selectedCategory]);
 
   const handlePostClick = (postId: string) => {
     navigate(`/notion/${postId}`);
@@ -83,112 +149,7 @@ const NotionPage: React.FC = () => {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    if (category === "전체") {
-      setFilteredPosts(posts);
-    } else if (category === "기타") {
-      setFilteredPosts(posts.filter((post) => post.organization.length === 0));
-    } else {
-      setFilteredPosts(
-        posts.filter((post) =>
-          post.organization.some((org) => org.name === category)
-        )
-      );
-    }
   };
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await fetchNotionItems();
-
-        const mapped = await Promise.all(
-          (data as NotionApiResponse).results.map(
-            async (page: NotionPageResponse) => {
-              const title =
-                page.properties["이름"]?.title?.[0]?.plain_text || "Untitled";
-              const tags =
-                page.properties["태그"]?.multi_select?.map(
-                  (tag: NotionMultiSelect) => ({
-                    name: tag.name,
-                    color: tag.color,
-                  })
-                ) || [];
-              const organization =
-                page.properties["소속"]?.multi_select?.map(
-                  (org: NotionMultiSelect) => ({
-                    name: org.name,
-                    color: org.color,
-                  })
-                ) || [];
-              const status =
-                page.properties["블로그 개시"]?.status?.name || "미완료";
-              const icon = page.icon?.emoji || "📝";
-
-              // 페이지 콘텐츠 가져오기
-              let content = "";
-              try {
-                const blocks = await fetchNotionPageContent(page.id);
-                content = blocks.results
-                  .map((block: any) => {
-                    if (
-                      block.type === "paragraph" &&
-                      block.paragraph?.rich_text
-                    ) {
-                      return block.paragraph.rich_text
-                        .map((text: any) => text.plain_text)
-                        .join("");
-                    }
-                    return "";
-                  })
-                  .filter((text) => text.length > 0)
-                  .join(" ")
-                  .substring(0, 150);
-              } catch (error) {
-                console.warn(`페이지 ${page.id} 콘텐츠 로드 실패:`, error);
-              }
-
-              return {
-                id: page.id,
-                title,
-                url: page.url,
-                icon,
-                created_time: page.created_time,
-                last_edited_time: page.last_edited_time,
-                tags,
-                status,
-                organization,
-                content,
-              };
-            }
-          )
-        );
-
-        setPosts(mapped);
-        setFilteredPosts(mapped);
-
-        // 카테고리 추출
-        const orgSet = new Set<string>();
-        mapped.forEach((post) => {
-          post.organization.forEach((org) => orgSet.add(org.name));
-        });
-        const orgCategories = Array.from(orgSet).sort();
-
-        // 기타 카테고리 추가 (소속이 없는 경우)
-        const hasNoOrg = mapped.some((post) => post.organization.length === 0);
-        const allCategories = ["전체", ...orgCategories];
-        if (hasNoOrg) {
-          allCategories.push("기타");
-        }
-
-        setCategories(allCategories);
-      } catch (e) {
-        console.error("fetchNotionItems 오류:", e);
-      } finally {
-        setLoad(false);
-      }
-    };
-    load();
-  }, []);
 
   return (
     <Wrapper>
@@ -198,7 +159,7 @@ const NotionPage: React.FC = () => {
           Notion에서 작성한 개발 관련 글과 생각들을 공유합니다.
         </Description>
 
-        {loading ? (
+        {isLoading ? (
           <LoadingWrapper>Loading...</LoadingWrapper>
         ) : (
           <>
@@ -408,7 +369,7 @@ const PostMeta = styled.div`
   display: flex;
   gap: 1.5rem;
   margin: 0;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.25rem;
