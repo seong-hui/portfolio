@@ -118,7 +118,7 @@ const NotionDetail: React.FC = () => {
             1. {getText(block.numbered_list_item?.rich_text || [])}
           </ListItem>
         );
-      case "image":
+      case "image": {
         const imageUrl = block.image?.file?.url || block.image?.external?.url;
         const caption = getText(block.image?.caption || []);
 
@@ -128,6 +128,7 @@ const NotionDetail: React.FC = () => {
             {caption && <ImageCaption>{caption}</ImageCaption>}
           </ImageWrapper>
         ) : null;
+      }
       default:
         return null;
     }

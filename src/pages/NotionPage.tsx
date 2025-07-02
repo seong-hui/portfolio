@@ -202,11 +202,6 @@ const Container = styled.div`
   padding: 0 20px;
 `;
 
-const HeaderSection = styled.div`
-  text-align: center;
-  margin-bottom: 4rem;
-`;
-
 const Title = styled.h1`
   text-align: center;
   font-size: 3rem;
