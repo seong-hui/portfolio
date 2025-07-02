@@ -2,8 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaReact, FaJs, FaNodeJs, FaGitAlt, FaCss3Alt } from "react-icons/fa";
-import { SiTypescript } from "react-icons/si";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const Home: React.FC = () => {
   return (
@@ -35,12 +34,28 @@ const Home: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <CTAButtons>
-                  <ProjectButton to="/projects">프로젝트 보기</ProjectButton>
-                  <Button href="#contact" variant="secondary">
-                    연락하기
-                  </Button>
-                </CTAButtons>
+                <SocialButtons>
+                  <SocialButton
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaGithub size={20} />
+                    GitHub
+                  </SocialButton>
+                  <SocialButton
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaLinkedin size={20} />
+                    LinkedIn
+                  </SocialButton>
+                  <SocialButton href="mailto:your-email@example.com">
+                    <FaEnvelope size={20} />
+                    Email
+                  </SocialButton>
+                </SocialButtons>
               </motion.div>
             </HeroContent>
           </motion.div>
@@ -72,8 +87,8 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며, 깔끔하고
-                효율적인 코드를 작성하기 위해 노력합니다.
+                새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며,
+                깔끔하고 효율적인 코드를 작성하기 위해 노력합니다.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -88,7 +103,7 @@ const Home: React.FC = () => {
         </Container>
       </AboutSection>
 
-      <SkillsSection>
+      <ProjectSection>
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -96,33 +111,28 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <SectionTitle>Skills</SectionTitle>
-            <SkillsGrid>
-              {[
-                { icon: <FaReact size={40} />, name: "React" },
-                { icon: <SiTypescript size={40} />, name: "TypeScript" },
-                { icon: <FaJs size={40} />, name: "JavaScript" },
-                { icon: <FaNodeJs size={40} />, name: "Node.js" },
-                { icon: <FaCss3Alt size={40} />, name: "CSS" },
-                { icon: <FaGitAlt size={40} />, name: "Git" },
-              ].map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <SkillItem>
-                    {skill.icon}
-                    <span>{skill.name}</span>
-                  </SkillItem>
-                </motion.div>
-              ))}
-            </SkillsGrid>
+            <SectionTitle>Projects</SectionTitle>
+            <ProjectContent>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                다양한 기술을 활용하여 제작한 프로젝트들을 소개합니다.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <ProjectButton to="/projects">프로젝트 보기</ProjectButton>
+              </motion.div>
+            </ProjectContent>
           </motion.div>
         </Container>
-      </SkillsSection>
+      </ProjectSection>
     </>
   );
 };
@@ -163,7 +173,7 @@ const HeroContent = styled.div`
   }
 `;
 
-const CTAButtons = styled.div`
+const SocialButtons = styled.div`
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -175,46 +185,48 @@ const CTAButtons = styled.div`
   }
 `;
 
-const Button = styled.a<{ variant: "primary" | "secondary" }>`
-  padding: 12px 30px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: inline-block;
-
-  ${({ variant }) =>
-    variant === "primary"
-      ? `
-    background: #007bff;
-    color: white;
-    
-    &:hover {
-      background: #0056b3;
-      transform: translateY(-2px);
-    }
-  `
-      : `
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-    
-    &:hover {
-      background: white;
-      color: #333;
-      transform: translateY(-2px);
-    }
-  `}
-`;
-
 const AboutSection = styled.section`
   padding: 80px 0;
   background: #f8f9fa;
 `;
 
-const SkillsSection = styled.section`
+const ProjectSection = styled.section`
   padding: 80px 0;
   background: #fff;
+`;
+
+const ProjectContent = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: #666;
+  }
+`;
+
+const SocialButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 500;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -267,37 +279,6 @@ const AboutButton = styled(Link)`
   &:hover {
     background: #0056b3;
     transform: translateY(-2px);
-  }
-`;
-
-const SkillsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-const SkillItem = styled.div`
-  background: #007bff;
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 123, 255, 0.3);
-  }
-
-  span {
-    font-size: 0.9rem;
   }
 `;
 

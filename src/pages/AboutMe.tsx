@@ -1,5 +1,13 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { FaReact, FaJs, FaNodeJs, FaCss3Alt, FaPython } from "react-icons/fa";
+import {
+  SiTypescript,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiMongodb,
+  SiMysql,
+} from "react-icons/si";
 
 const AboutMe: React.FC = () => {
   return (
@@ -95,6 +103,58 @@ const AboutMe: React.FC = () => {
             <ExperienceDescription>9기 카뎃</ExperienceDescription>
           </ExperienceItem>
         </Section>
+
+        <Section>
+          <SectionTitle>☑︎ Skills</SectionTitle>
+          <SkillsContainer>
+            <SkillCategory>
+              {/* <SkillCategoryTitle>Frontend</SkillCategoryTitle> */}
+              <SkillGrid>
+                <SkillItem>
+                  <FaReact size={24} color="#61DAFB" />
+                  <span>React</span>
+                </SkillItem>
+                <SkillItem>
+                  <SiNextdotjs size={24} color="#000000" />
+                  <span>Next.js</span>
+                </SkillItem>
+                <SkillItem>
+                  <SiTypescript size={24} color="#3178C6" />
+                  <span>TypeScript</span>
+                </SkillItem>
+                <SkillItem>
+                  <FaJs size={24} color="#F7DF1E" />
+                  <span>JavaScript</span>
+                </SkillItem>
+
+                <SkillItem>
+                  <FaCss3Alt size={24} color="#1572B6" />
+                  <span>CSS3</span>
+                </SkillItem>
+                <SkillItem>
+                  <SiTailwindcss size={24} color="#06B6D4" />
+                  <span>Tailwind</span>
+                </SkillItem>
+                <SkillItem>
+                  <FaNodeJs size={24} color="#339933" />
+                  <span>Node.js</span>
+                </SkillItem>
+                <SkillItem>
+                  <FaPython size={24} color="#3776AB" />
+                  <span>Python</span>
+                </SkillItem>
+                <SkillItem>
+                  <SiMongodb size={24} color="#47A248" />
+                  <span>MongoDB</span>
+                </SkillItem>
+                <SkillItem>
+                  <SiMysql size={24} color="#4479A1" />
+                  <span>MySQL</span>
+                </SkillItem>
+              </SkillGrid>
+            </SkillCategory>
+          </SkillsContainer>
+        </Section>
       </Container>
     </AboutMeSection>
   );
@@ -189,6 +249,47 @@ const ExperienceDetail = styled.div`
   font-size: 0.95rem;
   color: #777;
   line-height: 1.5;
+`;
+
+const SkillsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const SkillCategory = styled.div`
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const SkillGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+`;
+
+const SkillItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+  }
+
+  span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+  }
 `;
 
 export default AboutMe;
