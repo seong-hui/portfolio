@@ -3,9 +3,31 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
 import { colors } from "../styles/colors";
+import { fetchNotionItems } from "../apis/getNotionPosts";
+import { NotionTag } from "../components/NotionTag";
 
 const Home: React.FC = () => {
+  const { data: notionPosts = [] } = useQuery({
+    queryKey: ["notion-posts-home"],
+    queryFn: async () => {
+      const data = await fetchNotionItems();
+      return data.results.slice(0, 3).map((page: any) => ({
+        id: page.id,
+        title: page.properties["이름"]?.title?.[0]?.plain_text || "Untitled",
+        icon: page.icon?.emoji || "📝",
+        content:
+          page.properties["내용"]?.rich_text
+            ?.map((text: any) => text.plain_text)
+            .join("")
+            .substring(0, 100) || "",
+        organization: page.properties["소속"]?.multi_select?.[0] || null,
+        created_time: page.created_time,
+      }));
+    },
+  });
+
   return (
     <>
       <HomeSection id="home">
@@ -168,6 +190,49 @@ const Home: React.FC = () => {
           </motion.div>
         </Container>
       </ProjectSection>
+
+      <NotionSection>
+        <Container>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <SectionTitle>Recent Posts</SectionTitle>
+            <NotionGrid>
+              {notionPosts.map((post: any, index: number) => (
+                <motion.div
+                  key={post.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <NotionCard to={`/notion/${post.id}`}>
+                    <NotionHeader>
+                      <NotionIcon>{post.icon}</NotionIcon>
+                      <NotionTitle>{post.title}</NotionTitle>
+                    </NotionHeader>
+                    <NotionContent>{post.content}...</NotionContent>
+                    <NotionFooter>
+                      <NotionDate>
+                        {new Date(post.created_time).toLocaleDateString(
+                          "ko-KR"
+                        )}
+                      </NotionDate>
+                      <NotionTag color={post.organization?.color || "default"}>
+                        {post.organization?.name || "기타"}
+                      </NotionTag>
+                    </NotionFooter>
+                  </NotionCard>
+                </motion.div>
+              ))}
+            </NotionGrid>
+            <NotionButton to="/notion">모든 글 보기</NotionButton>
+          </motion.div>
+        </Container>
+      </NotionSection>
     </>
   );
 };
@@ -274,9 +339,7 @@ const SectionTitle = styled.h2`
 const AboutContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  gap: 2rem;
   align-items: center;
 
   @media (max-width: 768px) {
@@ -292,8 +355,8 @@ const AboutImageWrapper = styled.div`
 `;
 
 const AboutImage = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -317,9 +380,7 @@ const AboutContent = styled.div`
 const ProjectContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  gap: 2rem;
   align-items: center;
 
   @media (max-width: 768px) {
@@ -336,14 +397,13 @@ const ProjectImageWrapper = styled.div`
 
 const ProjectImage = styled.div`
   width: 100%;
-  max-width: 400px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 
   img {
     width: 100%;
-    height: 250px;
+    height: 200px;
     object-fit: cover;
   }
 `;
@@ -374,6 +434,112 @@ const AboutButton = styled(Link)`
   border-radius: 5px;
   font-weight: 600;
   transition: all 0.3s ease;
+
+  &:hover {
+    background: ${colors.primaryDark};
+    transform: translateY(-2px);
+  }
+`;
+
+const NotionSection = styled.section`
+  padding: 80px 0;
+  background: ${colors.background};
+`;
+
+const NotionGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 1024px) and (min-width: 769px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const NotionCard = styled(Link)`
+  background: ${colors.surface};
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+const NotionHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+`;
+
+const NotionIcon = styled.span`
+  font-size: 1.2rem;
+`;
+
+const NotionTitle = styled.h3`
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: ${colors.textPrimary};
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+`;
+
+const NotionContent = styled.p`
+  font-size: 0.9rem;
+  color: ${colors.textSecondary};
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+`;
+
+const NotionFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+`;
+
+const NotionDate = styled.span`
+  font-size: 0.8rem;
+  color: ${colors.textTertiary};
+`;
+
+const NotionButton = styled(Link)`
+  display: block;
+  text-align: center;
+  padding: 12px 30px;
+  background: ${colors.primary};
+  color: ${colors.white};
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  max-width: 200px;
+  margin: 0 auto;
 
   &:hover {
     background: ${colors.primaryDark};
