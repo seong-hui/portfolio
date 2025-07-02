@@ -1,12 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useParams, Link } from "react-router-dom";
-import { FaArrowLeft, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import {
+  FaArrowLeft,
+  FaExternalLinkAlt,
+  FaGithub,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
 import {
   PROJECT_DETAILS,
   type ProjectDetailData,
 } from "../constants/projectDetails";
 import { colors } from "../styles/colors";
+
+interface ImageSliderProps {
+  images: string[];
+  title: string;
+}
+
+const ImageSlider: React.FC<ImageSliderProps> = ({ images, title }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const nextImage = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+      setIsTransitioning(false);
+    }, 150);
+  };
+
+  const prevImage = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+      setIsTransitioning(false);
+    }, 150);
+  };
+
+  const goToImage = (index: number) => {
+    if (isTransitioning || index === currentIndex) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setIsTransitioning(false);
+    }, 150);
+  };
+
+  if (images.length === 0) return null;
+
+  return (
+    <ProjectImageSlider>
+      <SliderContainer>
+        <SliderImage isTransitioning={isTransitioning}>
+          <img
+            src={images[currentIndex]}
+            alt={`${title} 프로젝트 ${currentIndex + 1}`}
+          />
+        </SliderImage>
+        {images.length > 1 && (
+          <>
+            <SliderButton onClick={prevImage} position="left">
+              <FaChevronLeft />
+            </SliderButton>
+            <SliderButton onClick={nextImage} position="right">
+              <FaChevronRight />
+            </SliderButton>
+            <SliderDots>
+              {images.map((_, index) => (
+                <Dot
+                  key={index}
+                  active={index === currentIndex}
+                  onClick={() => goToImage(index)}
+                />
+              ))}
+            </SliderDots>
+          </>
+        )}
+      </SliderContainer>
+    </ProjectImageSlider>
+  );
+};
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -185,13 +262,10 @@ const ProjectDetail: React.FC = () => {
           <FaArrowLeft /> 프로젝트 목록으로 돌아가기
         </BackButton>
 
-        <ProjectImage>
-          <img src={projectData.image} alt={`${projectData.title} 프로젝트`} />
-        </ProjectImage>
-
         <Header>
           <Title>{projectData.title}</Title>
           {renderLinks(projectData.links)}
+          <ImageSlider images={projectData.images} title={projectData.title} />
         </Header>
 
         {projectData.sections.map(renderSection)}
@@ -232,18 +306,87 @@ const BackButton = styled(Link)`
   }
 `;
 
-const ProjectImage = styled.div`
+const ProjectImageSlider = styled.div`
   width: 100%;
-  height: 300px;
+  margin-top: 2rem;
+`;
+
+const SliderContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 400px;
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: ${colors.gray100};
+
+  @media (max-width: 768px) {
+    height: 250px;
+  }
+`;
+
+const SliderImage = styled.div<{ isTransitioning: boolean }>`
+  width: 100%;
+  height: 100%;
+  opacity: ${({ isTransitioning }) => (isTransitioning ? 0 : 1)};
+  transition: opacity 0.3s ease-in-out;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    padding: 1rem;
+  }
+`;
+
+const SliderButton = styled.button<{ position: "left" | "right" }>`
+  position: absolute;
+  top: 50%;
+  ${({ position }) => position}: 1rem;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.1);
+  }
+`;
+
+const SliderDots = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+`;
+
+const Dot = styled.button<{ active: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: ${({ active }) =>
+    active ? "white" : "rgba(255, 255, 255, 0.5)"};
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: white;
+    transform: scale(1.2);
   }
 `;
 
@@ -256,7 +399,7 @@ const Header = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #333;
   margin-bottom: 1.5rem;
 `;

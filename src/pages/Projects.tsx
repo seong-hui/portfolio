@@ -141,13 +141,25 @@ const ProjectCard = styled(ProjectItemBase)`
 
 const ProjectImage = styled.div`
   width: 100%;
-  height: 250px;
+  height: 300px;
   overflow: hidden;
+  position: relative;
+  background: ${colors.gray100};
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.02);
+  }
+
+  @media (max-width: 768px) {
+    height: 200px;
   }
 `;
 
