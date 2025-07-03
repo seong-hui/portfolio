@@ -157,10 +157,7 @@ const Home: React.FC = () => {
                   viewport={{ once: true }}
                 >
                   <AboutImage>
-                    <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
-                      alt="Developer"
-                    />
+                    <img src="/images/profile.png" alt="Developer" />
                   </AboutImage>
                 </motion.div>
               </AboutImageWrapper>
