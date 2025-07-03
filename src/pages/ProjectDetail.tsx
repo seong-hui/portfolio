@@ -401,8 +401,9 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 2.5rem;
-  color: #333;
+  color: ${colors.textPrimary};
   margin-bottom: 1.5rem;
+  letter-spacing: 2px;
 `;
 
 const Links = styled.div`

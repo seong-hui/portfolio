@@ -195,9 +195,13 @@ const Container = styled.div`
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
   color: ${colors.textPrimary};
+  letter-spacing: 2px;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
 `;
 
 const Description = styled.p`

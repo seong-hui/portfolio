@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { fetchNotionItems } from "../apis/getNotionPosts";
-import { getNotionColor, getTagColor } from "../styles/colors";
+import { colors, getNotionColor, getTagColor } from "../styles/colors";
 import { Spinner } from "../components/Spinner";
 import { layout } from "../styles/layout";
 
@@ -259,9 +259,13 @@ const Container = styled.div`
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: ${colors.textPrimary};
+  letter-spacing: 2px;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
 `;
 
 const Description = styled.p`
