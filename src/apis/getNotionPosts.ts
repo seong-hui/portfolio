@@ -22,3 +22,9 @@ export async function fetchNotionPageContent(pageId: string) {
   const { data } = await instance.get(url);
   return data;
 }
+
+export async function fetchNotionPageInfo(pageId: string) {
+  const url = `/pages/${pageId}`;
+  const { data } = await instance.get(url);
+  return data;
+}

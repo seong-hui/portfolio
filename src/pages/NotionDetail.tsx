@@ -2,9 +2,13 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
-import { fetchNotionPageContent } from "../apis/getNotionPosts";
+import {
+  fetchNotionPageContent,
+  fetchNotionPageInfo,
+} from "../apis/getNotionPosts";
 import { colors } from "../styles/colors";
 import { Spinner } from "../components/Spinner";
+import { NotionTag } from "../components/NotionTag";
 import { layout } from "../styles/layout";
 
 type NotionBlock = {
@@ -58,11 +62,25 @@ type NotionContentResponse = {
   results: NotionBlock[];
 };
 
+type NotionMultiSelect = {
+  name: string;
+  color: string;
+};
+
 const NotionDetail: React.FC = () => {
   const { pageId } = useParams<{ pageId: string }>();
   const navigate = useNavigate();
 
-  const { data, isLoading: loading } = useQuery({
+  const { data: pageInfo, isLoading: pageLoading } = useQuery({
+    queryKey: ["notion-page-info", pageId],
+    queryFn: async () => {
+      if (!pageId) throw new Error("Page ID not found");
+      return await fetchNotionPageInfo(pageId);
+    },
+    enabled: !!pageId,
+  });
+
+  const { data, isLoading: contentLoading } = useQuery({
     queryKey: ["notion-detail", pageId],
     queryFn: async () => {
       if (!pageId) throw new Error("Page ID not found");
@@ -72,7 +90,15 @@ const NotionDetail: React.FC = () => {
     enabled: !!pageId,
   });
 
+  const loading = pageLoading || contentLoading;
+
   const content = data || [];
+  const pageTitle =
+    pageInfo?.properties?.["이름"]?.title?.[0]?.plain_text || "제목 없음";
+  const createdDate = pageInfo?.created_time;
+  const organization = pageInfo?.properties?.["소속"]?.multi_select?.[0];
+  const status = pageInfo?.properties?.["블로그 개시"]?.status?.name;
+  const tags = pageInfo?.properties?.["태그"]?.multi_select || [];
 
   const renderBlock = (block: NotionBlock) => {
     const getText = (richText: Array<{ plain_text: string }>) =>
@@ -142,7 +168,46 @@ const NotionDetail: React.FC = () => {
   return (
     <Wrapper>
       <BackButton onClick={() => navigate(-1)}>← 뒤로가기</BackButton>
-      <ContentWrapper>{content.map(renderBlock)}</ContentWrapper>
+      <ContentWrapper>
+        <PageTitle>{pageTitle}</PageTitle>
+        <PageMeta>
+          <MetaLeft>
+            {createdDate && (
+              <MetaItem>
+                <TagLabel>작성일:</TagLabel>
+                {new Date(createdDate).toLocaleDateString("ko-KR")}
+              </MetaItem>
+            )}
+            {organization && (
+              <MetaItem>
+                <TagLabel>소속:</TagLabel>
+                <NotionTag color={organization.color}>
+                  {organization.name}
+                </NotionTag>
+              </MetaItem>
+            )}
+            {tags.length > 0 && (
+              <MetaItem>
+                <TagLabel>카테고리:</TagLabel>
+                <TagList>
+                  {tags.map((tag: NotionMultiSelect, index: number) => (
+                    <NotionTag key={index} color={tag.color}>
+                      {tag.name}
+                    </NotionTag>
+                  ))}
+                </TagList>
+              </MetaItem>
+            )}
+          </MetaLeft>
+          {status && (
+            <MetaItem>
+              <StatusBadge status={status}>{status}</StatusBadge>
+            </MetaItem>
+          )}
+        </PageMeta>
+
+        {content.map(renderBlock)}
+      </ContentWrapper>
     </Wrapper>
   );
 };
@@ -177,6 +242,14 @@ const BackButton = styled.button`
   }
 `;
 
+const PageTitle = styled.h1`
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: ${colors.textPrimary};
+  text-align: center;
+`;
+
 const ContentWrapper = styled.div`
   background: ${colors.surface};
   border-radius: 12px;
@@ -185,29 +258,91 @@ const ContentWrapper = styled.div`
   line-height: 1.6;
 `;
 
+const PageMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid ${colors.gray200};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const MetaLeft = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const MetaItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: ${colors.textSecondary};
+
+  strong {
+    color: ${colors.textPrimary};
+  }
+`;
+
+const StatusBadge = styled.span<{ status: string }>`
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: ${({ status }) =>
+    status === "완료"
+      ? colors.successLight
+      : status === "작성중"
+      ? colors.warningLight
+      : colors.gray200};
+  color: ${({ status }) =>
+    status === "완료"
+      ? colors.successDark
+      : status === "작성중"
+      ? colors.warningDark
+      : colors.textSecondary};
+`;
+
+const TagLabel = styled.p`
+  color: ${colors.textPrimary};
+  font-size: 0.9rem;
+`;
+
+const TagList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
 const Heading1 = styled.h1`
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  margin: 2rem 0 1rem 0;
+  margin: 1.2rem 0 1rem 0;
   color: ${colors.textPrimary};
 `;
 
 const Heading2 = styled.h2`
   font-size: 1.5rem;
   font-weight: 600;
-  margin: 1.5rem 0 1rem 0;
+  margin: 1rem 0 0.8rem 0;
   color: ${colors.textPrimary};
 `;
 
 const Heading3 = styled.h3`
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 1.25rem 0 0.75rem 0;
+  margin: 0.8rem 0 0.75rem 0;
   color: ${colors.textPrimary};
 `;
 
 const Paragraph = styled.p`
-  margin: 1rem 0;
+  margin: 0.3rem 0;
   color: ${colors.textSecondary};
   font-size: 1rem;
 `;
