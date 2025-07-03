@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { fetchNotionItems } from "../apis/getNotionPosts";
 import { getNotionColor, getTagColor } from "../styles/colors";
 import { Spinner } from "../components/Spinner";
+import { layout } from "../styles/layout";
 
 type NotionTag = {
   name: string;
@@ -251,9 +252,9 @@ const Wrapper = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 820px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
-  padding: 0 16px;
+  padding: ${layout.containerPadding};
 `;
 
 const Title = styled.h1`

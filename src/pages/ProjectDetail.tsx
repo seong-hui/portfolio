@@ -13,6 +13,7 @@ import {
   type ProjectDetailData,
 } from "../constants/projectDetails";
 import { colors } from "../styles/colors";
+import { layout } from "../styles/layout";
 
 interface ImageSliderProps {
   images: string[];
@@ -281,9 +282,9 @@ const DetailSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 1000px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
-  padding: 0 20px;
+  padding: ${layout.containerPadding};
 `;
 
 const BackButton = styled(Link)`
@@ -439,10 +440,10 @@ const Section = styled.div`
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #333;
   margin-bottom: 1.5rem;
-  border-bottom: 3px solid #007bff;
+  border-bottom: 3px solid ${colors.gray300};
   padding-bottom: 0.5rem;
 `;
 

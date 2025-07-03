@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { FaExternalLinkAlt, FaCalendarAlt } from "react-icons/fa";
 import { colors } from "../styles/colors";
 import { Spinner } from "../components/Spinner";
+import { layout } from "../styles/layout";
 
 interface VelogPost {
   id: string;
@@ -187,9 +188,9 @@ const BlogSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 820px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
-  padding: 0 16px;
+  padding: ${layout.containerPadding};
 `;
 
 const Title = styled.h1`

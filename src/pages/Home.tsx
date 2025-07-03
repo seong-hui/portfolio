@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { colors } from "../styles/colors";
+import { layout } from "../styles/layout";
 import { fetchNotionItems } from "../apis/getNotionPosts";
 import { NotionTag } from "../components/NotionTag";
 import { Button } from "../components/Button";
@@ -301,9 +302,9 @@ const HomeSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 820px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
-  padding: 0 16px;
+  padding: ${layout.containerPadding};
 `;
 
 const HeroContent = styled.div`

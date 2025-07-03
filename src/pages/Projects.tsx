@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { colors } from "../styles/colors";
 import { PROJECTS, type Project } from "../constants/projects";
+import { layout } from "../styles/layout";
 
 const Projects: React.FC = () => {
   const renderProjectLinks = (project: Project) => (
@@ -102,9 +103,9 @@ const ProjectsSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 820px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
-  padding: 0 16px;
+  padding: ${layout.containerPadding};
 `;
 
 const Title = styled.h1`

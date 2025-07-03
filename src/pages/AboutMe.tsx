@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { FaReact, FaJs, FaCss3Alt } from "react-icons/fa";
 import { SiTypescript, SiNextdotjs, SiTailwindcss } from "react-icons/si";
 import { colors } from "../styles/colors";
+import { layout } from "../styles/layout";
 
 const AboutMe: React.FC = () => {
   return (
@@ -141,9 +142,9 @@ const AboutMeSection = styled.section`
 `;
 
 const Container = styled.div`
-  max-width: 820px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
-  padding: 0 16px;
+  padding: ${layout.containerPadding};
 `;
 
 const Title = styled.h1`

@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import { fetchNotionPageContent } from "../apis/getNotionPosts";
 import { colors } from "../styles/colors";
 import { Spinner } from "../components/Spinner";
+import { layout } from "../styles/layout";
 
 type NotionBlock = {
   id: string;
@@ -147,9 +148,9 @@ const NotionDetail: React.FC = () => {
 };
 
 const Wrapper = styled.div`
-  max-width: 820px;
-  margin: 40px auto 0;
-  padding: 1.5rem 16px;
+  max-width: ${layout.maxWidth};
+  margin: 40px auto;
+  padding: 0 16px;
 `;
 
 const LoadingWrapper = styled.div`

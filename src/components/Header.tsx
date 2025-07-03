@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { layout } from "../styles/layout";
 
 const Header: React.FC = () => {
   return (
@@ -43,7 +44,7 @@ const HeaderContainer = styled.header`
 `;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: ${layout.maxWidth};
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
