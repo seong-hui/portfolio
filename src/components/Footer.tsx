@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
     <FooterContainer>
       <Container>
         <FooterContent>
-          <p>&copy; 2025 Portfolio. All rights reserved.</p>
+          <p>&copy; 2025 Seonghui Moon. All rights reserved.</p>
           <SocialLinks>
             <a
               href="https://github.com/seong-hui"

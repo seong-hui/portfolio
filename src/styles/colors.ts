@@ -12,7 +12,7 @@ export const colors = {
   gray900: "#333333",
 
   // 브랜드 색상
-  primary: "#6c757d",
+  primary: "#A4B2FF",
   primaryDark: "#495057",
   primaryLight: "#e9ecef",
 

@@ -443,7 +443,7 @@ const SectionTitle = styled.h2`
   font-size: 1.5rem;
   color: #333;
   margin-bottom: 1.5rem;
-  border-bottom: 3px solid ${colors.gray300};
+  border-bottom: 2px solid ${colors.gray200};
   padding-bottom: 0.5rem;
 `;
 
