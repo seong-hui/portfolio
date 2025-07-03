@@ -104,7 +104,7 @@ const Home: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                창의적이고 효율적인 솔루션을 만드는 것을 좋아합니다~~
+                문성희입니다 ~~~
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -168,8 +168,7 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.8, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  안녕하세요! 저는 사용자 중심의 웹 애플리케이션을 개발하는 것을
-                  좋아하는 개발자입니다.
+                  안녕하세요! 저는 프론트엔드 개발자 문성희입니다.
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0, y: 30 }}
@@ -177,8 +176,7 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며,
-                  깔끔하고 효율적인 코드를 작성하기 위해 노력합니다.
+                  열심히 공부해요
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}

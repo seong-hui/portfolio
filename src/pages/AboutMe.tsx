@@ -17,16 +17,9 @@ const AboutMe: React.FC = () => {
         <Title>About Me</Title>
         <Content>
           <p>
-            안녕하세요! 저는 사용자 중심의 웹 애플리케이션을 개발하는 것을
-            좋아하는 개발자입니다.
-          </p>
-          <p>
-            새로운 기술을 배우고 적용하는 것에 열정을 가지고 있으며, 깔끔하고
-            효율적인 코드를 작성하기 위해 노력합니다.
-          </p>
-          <p>
-            문제 해결을 통해 사용자에게 가치를 제공하는 것이 저의 개발
-            철학입니다.
+            안녕하세요 문성희입니다 ~~~~~~
+            <br />
+            !!!
           </p>
         </Content>
 
@@ -137,22 +130,6 @@ const AboutMe: React.FC = () => {
                 <SkillItem>
                   <SiTailwindcss size={24} color="#06B6D4" />
                   <span>Tailwind</span>
-                </SkillItem>
-                <SkillItem>
-                  <FaNodeJs size={24} color="#339933" />
-                  <span>Node.js</span>
-                </SkillItem>
-                <SkillItem>
-                  <FaPython size={24} color="#3776AB" />
-                  <span>Python</span>
-                </SkillItem>
-                <SkillItem>
-                  <SiMongodb size={24} color="#47A248" />
-                  <span>MongoDB</span>
-                </SkillItem>
-                <SkillItem>
-                  <SiMysql size={24} color="#4479A1" />
-                  <span>MySQL</span>
                 </SkillItem>
               </SkillGrid>
             </SkillCategory>
