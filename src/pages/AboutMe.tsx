@@ -1,13 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { FaReact, FaJs, FaNodeJs, FaCss3Alt, FaPython } from "react-icons/fa";
-import {
-  SiTypescript,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiMongodb,
-  SiMysql,
-} from "react-icons/si";
+import { FaReact, FaJs, FaCss3Alt } from "react-icons/fa";
+import { SiTypescript, SiNextdotjs, SiTailwindcss } from "react-icons/si";
 import { colors } from "../styles/colors";
 
 const AboutMe: React.FC = () => {
